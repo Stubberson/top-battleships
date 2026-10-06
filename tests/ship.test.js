@@ -3,9 +3,9 @@ const { Ship } = require('../src/ship.js')
 const battleship = new Ship(4)
 const cruiser = new Ship(3)
 
-test('should create a new ship instance with correct length', () => {
-    expect(battleship.length).toBe(4)
-    expect(cruiser.length).toBe(3)
+test('should create a new ship instance with correct size', () => {
+    expect(battleship.size).toBe(4)
+    expect(cruiser.size).toBe(3)
 })
 
 test('should take a hit', () => {

@@ -4,11 +4,11 @@ const newBoard = new Board()
 
 test('should place a boat in right coordinates', () => {
     const carrierPlaced = [
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 2, 2, 2, 2, 2, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -16,5 +16,7 @@ test('should place a boat in right coordinates', () => {
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     ]
 
-    expect(newBoard.placeShipAt([0, 0], [0, 5])).toMatchObject(carrierPlaced)
+    expect(newBoard.placeShip(5, [1, 1], [5, 1])).toMatchObject(carrierPlaced)
+    expect(newBoard.placeShip(5, [5, 1], [1, 1])).toMatchObject(carrierPlaced)
+    expect(newBoard.ships[5]).toBe(0)
 })
