@@ -1,16 +1,11 @@
 const { Ship } = require('../src/ship.js')
 
-const battleship = new Ship(4)
-const cruiser = new Ship(3)
+const battleship = new Ship('battleship')
+const cruiser = new Ship('cruiser')
 
 test('should create a new ship instance with correct size', () => {
     expect(battleship.size).toBe(4)
     expect(cruiser.size).toBe(3)
-})
-
-test('should throw an error if given unallowed size', () => {
-    expect(() => new Ship(6)).toThrow(Error)
-    expect(() => new Ship(1)).toThrow(Error)
 })
 
 test('should take a hit', () => {
