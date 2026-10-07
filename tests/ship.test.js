@@ -8,6 +8,11 @@ test('should create a new ship instance with correct size', () => {
     expect(cruiser.size).toBe(3)
 })
 
+test('should throw an error if given unallowed size', () => {
+    expect(() => new Ship(6)).toThrow(Error)
+    expect(() => new Ship(1)).toThrow(Error)
+})
+
 test('should take a hit', () => {
     battleship.hit()
     battleship.hit()
@@ -16,11 +21,11 @@ test('should take a hit', () => {
 })
 
 test('should sink with enough hits', () => {
-    for (let hit = 0; hit < 3; hit++) {
+    for (let hit = 0; hit < 2; hit++) {
         battleship.hit()
         cruiser.hit()
     }
 
-    expect(battleship.isSunk()).toBe(false)
-    expect(cruiser.isSunk()).toBe(true)
+    expect(battleship.isSunk()).toBe(true)
+    expect(cruiser.isSunk()).toBe(false)
 })

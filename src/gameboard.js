@@ -3,8 +3,7 @@ const { Ship } = require('./ship.js')
 class Board {
     constructor() {
         this.board = this.#createBoard()
-        // One Cruiser, two Battleships, etc.
-        this.ships = {5: 1, 4: 2, 3: 3, 3: 4, 2: 5}
+        this.fleet = {5: 0, 4: 0, 3: 0, 2: 0}
     }
 
     #createBoard() {
@@ -20,26 +19,49 @@ class Board {
     }
 
     placeShip(shipSize, coords1, coords2) {
-        const ship = new Ship(shipSize)
-        if (this.ships[ship.size] > 0) this.ships[ship.size]--
-        
-        // Make the input coordinates order agnostic
-        if (coords2.some(c => c < coords1[0] || c < coords1[1])) {
+        // Make input coordinates order agnostic
+        if (coords2[0] < coords1[0] || coords2[1] < coords1[1]) {
             let temp = coords1
             coords1 = coords2
             coords2 = temp
         }
 
+        // Make sure given coordinates correspond with shipSize
+        let coordLength = 1
+        coords1[0] === coords2[0]
+            ? coordLength += coords2[1] - coords1[1]
+            : coordLength += coords2[0] - coords1[0]
+
+        if (shipSize !== coordLength) {
+            throw Error('Given coordinates do not match given ship size')
+        }
+
+        // 2 = ship on coord, 1 = hit ship on coord, 0 = no ship or miss on coord, -1 = miss on coord
+        // Retrieve coordinates for proposed placement (expect coords as (X, Y))
+        let proposedPlacement = []
         for (let row = coords1[0]; row <= coords2[0]; row++) {
             for (let col = coords1[1]; col <= coords2[1]; col++) {
-                this.board[col][row] = 2
+                proposedPlacement.push([col, row])
             }
         }
-        return this.board
+
+        //  Make sure that another ship is not placed on the proposed coordinates
+        if (proposedPlacement.some(pair => this.board[pair[0]][pair[1]] !== 0)) {
+            throw Error('Cannot place a ship here')
+        } else {
+            // Place ship if available in fleet
+            if (this.fleet[shipSize] === 0 || (shipSize === 3 && this.fleet[shipSize] < 2)) {
+                const ship = new Ship(shipSize)
+                this.fleet[ship.size]++
+                proposedPlacement.forEach(pair => this.board[pair[0]][pair[1]] = 2)
+            } else {
+                throw Error('Ship already placed')
+            }
+        }
     }
 
     receiveAttack(coords) {
-
+        
     }
 
 }
