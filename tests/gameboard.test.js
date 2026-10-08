@@ -61,3 +61,45 @@ test('should record a missed attack on board', () => {
     newBoard.receiveAttack([9, 0])
     expect(newBoard.board).toMatchObject(currentBoard)
 })
+
+test('should record a hit on the right boat', () => {
+    newBoard.receiveAttack([1, 1])
+    newBoard.receiveAttack([9, 9])
+    expect(newBoard.fleet['carrier']['shipInstance'].hits).toBe(1)
+    expect(newBoard.fleet['destroyer']['shipInstance'].hits).toBe(1)
+})
+
+test('should prevent attacking the same square twice', () => {
+    expect(() => newBoard.receiveAttack([1, 1])).toThrow(Error)
+    expect(() => newBoard.receiveAttack([9, 9])).toThrow(Error)
+})
+
+test('should correctly report whether the fleet is sunk or not', () => {
+    expect(newBoard.fleetIsSunk()).toBeFalsy()
+
+    // Place battleship and destroy it
+    newBoard.placeShip('battleship', [0,0], [3,0])
+    for (let i = 0; i < 4; i++) {
+        newBoard.receiveAttack([i, 0])
+    }
+
+    // Destroy carrier
+    for (let i = 2; i < 6; i++) {
+        newBoard.receiveAttack([i, 1])
+    }
+
+    // Destroy submarine
+    for (let i = 0; i < 3; i++) {
+        newBoard.receiveAttack([i, 3])
+    }
+    
+    // Destroy cruiser
+    for (let i = 7; i < 10; i++) {
+        newBoard.receiveAttack([7, i])
+    }
+
+    // Destroy destroyer
+    newBoard.receiveAttack([8, 9])
+
+    expect(newBoard.fleetIsSunk()).toBeTruthy()
+})
