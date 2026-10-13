@@ -2,7 +2,7 @@
   "name": "top-battleships",
   "version": "1.0.0",
   "description": "Final project of TOP in the intermediate JS course. Focus is on TDD and managing a larger project.",
-  "main": "index.js",
+  "main": "./src/index.js",
   "scripts": {
     "test": "jest",
     "build": "webpack --config webpack.prod.js",
@@ -22,6 +22,7 @@
   "homepage": "https://github.com/Stubberson/top-battleships#readme",
   "devDependencies": {
     "css-loader": "^7.1.5",
+    "html-loader": "^5.1.0",
     "html-webpack-plugin": "^5.6.8",
     "jest": "^30.5.2",
     "style-loader": "^4.0.0",

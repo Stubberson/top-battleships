@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+div.fleet-board {
+    display: grid;
+    grid-template-rows: repeat(10, 50px);
+    max-width: 500px;
+}
+
+div.fleet-board div.row {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+}
+
+div.fleet-board div.row > div {
+    border: 1px solid black;
+}

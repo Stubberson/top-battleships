@@ -1,4 +1,4 @@
-const { Ship } = require('./ship.js')
+import { Ship } from './ship.js'
 
 class Board {
     constructor() {
@@ -92,4 +92,4 @@ class Board {
 
 }
 
-module.exports = { Board }
+export { Board }
