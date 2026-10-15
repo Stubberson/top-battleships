@@ -1,5 +1,41 @@
 @import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
+body {
+    /* COLORS */
+    --light-gray-highlight: #e5e5e5;
+    --medium-gray-highlight: #767676;
+    --cherry-rose: #b7094c;
+    --dark-raspberry: #a01a58;
+    --royal-plum: #892b64;
+    --velvet-purple: #723c70;
+    --dusty-grape: #5c4d7d;
+    --dusk-blue: #455e89;
+    --rich-cerulean: #2e6f95;
+    --cerulean: #1780a1;
+    --pacific-cyan: #0091ad;
+
+    font-family: "Atkinson Hyperlegible Mono", sans-serif;
+}
+
+div.intro {
+    display: flex;
+    flex-direction: column;
+}
+
+h1, p {
+    text-align: center;
+}
+
+button {
+    font-family: "Atkinson Hyperlegible Mono", sans-serif;
+    font-weight: bold;
+
+    padding: 0 20px;
+    
+    align-self: center;
+    margin-bottom: 20px;
+}
+
 div.boards-wrapper {
     justify-self: center;
     display: flex;
@@ -25,15 +61,15 @@ div.board-row > div {
 }
 
 div.own-board div.ship {
-    background-color: rgb(155, 222, 255);
+    background-color: var(--pacific-cyan);
 }
 
 div.board div.hit {
-    background-color: rgb(255, 142, 116);
+    background-color: var(--cherry-rose);
 }
 
 div.board div.miss {
-    background-color: rgb(243, 255, 116);
+    background-color: var(--dusty-grape);
 }
 
 /* Opacity change on hover */

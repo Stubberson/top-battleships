@@ -23,12 +23,10 @@ class Ship {
 
     hit() {
         if (this.hits < this.size) this.hits++
+        if (this.hits === this.size) this.sunk = true
     }
 
     isSunk() {
-        if (this.hits === this.size) {
-            this.sunk = true
-        }
         return this.sunk
     }
 }

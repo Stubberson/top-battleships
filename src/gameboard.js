@@ -46,14 +46,14 @@ class Board {
         // 2 = ship on coord, 1 = hit ship on coord, 0 = no ship or miss on coord, -1 = miss on coord
         // Retrieve coordinates for proposed placement
         let coordinates = []
-        for (let row = coords1[0]; row <= coords2[0]; row++) {
-            for (let col = coords1[1]; col <= coords2[1]; col++) {
-                coordinates.push([col, row])
+        for (let X = coords1[0]; X <= coords2[0]; X++) {
+            for (let Y = coords1[1]; Y <= coords2[1]; Y++) {
+                coordinates.push([X, Y])
             }
         }
 
         //  Make sure that another ship is not placed on the proposed coordinates
-        if (coordinates.some(pair => this.board[pair[0]][pair[1]] !== 0)) {
+        if (coordinates.some(pair => this.board[pair[1]][pair[0]] !== 0)) {
             throw Error('Cannot place a ship here')
         } else {
             // Place ship if available in fleet
@@ -61,7 +61,7 @@ class Board {
                 throw Error('Ship already placed')
             } else {
                 this.fleet[ship.type] = {'shipInstance': ship, 'coords': coordinates}
-                coordinates.forEach(pair => this.board[pair[0]][pair[1]] = 2)
+                coordinates.forEach(pair => this.board[pair[1]][pair[0]] = 2)
             }
         }
     }
