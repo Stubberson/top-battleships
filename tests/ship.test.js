@@ -1,4 +1,4 @@
-const { Ship } = require('../src/ship.js')
+import { Ship } from '../src/ship.js'
 
 const battleship = new Ship('battleship')
 const cruiser = new Ship('cruiser')

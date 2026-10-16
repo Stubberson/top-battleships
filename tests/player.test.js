@@ -1,4 +1,4 @@
-const { Player } = require('../src/player.js')
+import { Player } from '../src/player.js'
 
 test('should create a player object', () => {
     const player = new Player('player1')

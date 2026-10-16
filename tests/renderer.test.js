@@ -1,0 +1,1 @@
+import { renderBoard } from '../src/renderer.js'

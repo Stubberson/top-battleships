@@ -1,4 +1,4 @@
-const { Board } = require('../src/gameboard.js')
+import { Board } from '../src/gameboard.js'
 
 const newBoard = new Board()
 

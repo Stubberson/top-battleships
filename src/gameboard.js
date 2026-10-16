@@ -75,7 +75,7 @@ class Board {
 
             // Record attack on a particular ship
             for (let ship of Object.values(this.fleet)) {
-                if (ship && ship['coords'].toString().includes(coords.toString())) {
+                if (ship && ship['coords'].some(pair => pair.toString().includes(coords.toString()))) {
                     ship['shipInstance'].hit()
                 }
             }
