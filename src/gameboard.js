@@ -68,7 +68,7 @@ class Board {
 
     receiveAttack(coords) {
         if (this.board[coords[1]][coords[0]] === 1 || this.board[coords[1]][coords[0]] === -1) {
-            throw new Error('This square has already been attacked')
+            throw Error('This square has already been attacked')
         } else {
             // Record attack on board
             this.board[coords[1]][coords[0]]--

@@ -46,18 +46,19 @@ div.board {
     display: grid;
     grid-template-rows: repeat(10, 50px);
     min-width: 500px;
-    gap: 2px;
+    border-top: 1px solid black;
+    border-left: 1px solid black;
 }
 
 div.board-row {
     display: grid;
     grid-template-columns: repeat(10, 1fr);
-    gap: 2px;
 }
 
 div.board-row > div {
     position: relative;
-    border: 1px solid black;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
 }
 
 div.own-board div.ship {

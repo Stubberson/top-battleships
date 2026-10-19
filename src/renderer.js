@@ -18,7 +18,7 @@ function renderBoard(player, playerBoard) {
                 case 1:
                     cellElem.classList.add('hit')
                     break
-                case 0:  // This is kinda redundant
+                case 0:
                     cellElem.className = 'empty'
                     break
                 case -1:
