@@ -23,7 +23,7 @@ class Board {
     }
 
     placeShip(type, coords1, coords2) {
-        // Coordinates are expected as [X, Y] starting from upper left corner of board
+        // Coordinates are expected as [x, y] starting from upper left corner of board
         const ship = new Ship(type)
 
         // Make input coordinates order agnostic
@@ -46,15 +46,15 @@ class Board {
         // 2 = ship on coord, 1 = hit ship on coord, 0 = no ship or miss on coord, -1 = miss on coord
         // Retrieve coordinates for proposed placement
         let coordinates = []
-        for (let X = coords1[0]; X <= coords2[0]; X++) {
-            for (let Y = coords1[1]; Y <= coords2[1]; Y++) {
-                coordinates.push([X, Y])
+        for (let x = coords1[0]; x <= coords2[0]; x++) {
+            for (let y = coords1[1]; y <= coords2[1]; y++) {
+                coordinates.push([x, y])
             }
         }
 
         //  Make sure that another ship is not placed on the proposed coordinates
         if (coordinates.some(pair => this.board[pair[1]][pair[0]] !== 0)) {
-            throw Error('Cannot place a ship here')
+            return false
         } else {
             // Place ship if available in fleet
             if (this.fleet[ship.type]) {
@@ -62,6 +62,7 @@ class Board {
             } else {
                 this.fleet[ship.type] = {'shipInstance': ship, 'coords': coordinates}
                 coordinates.forEach(pair => this.board[pair[1]][pair[0]] = 2)
+                return true
             }
         }
     }
