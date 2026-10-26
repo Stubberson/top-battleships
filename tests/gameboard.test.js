@@ -35,8 +35,8 @@ test('should throw an error if given ship and coordinates do not match', () => {
     expect(() => newBoard.placeShip('destroyer', [0, 0], [2, 0])).toThrow(Error)
 })
 
-test('should throw an error if placing a ship on top of another', () => {
-    expect(() => newBoard.placeShip('battleship', [4, 1], [1, 1])).toThrow(Error)
+test('should return false if placing a ship on top of another', () => {
+    expect(newBoard.placeShip('battleship', [4, 1], [1, 1])).toBeFalsy()
 })
 
 test('should throw an error if placing extra ships', () => {
@@ -102,4 +102,33 @@ test('should correctly report whether the fleet is sunk or not', () => {
     newBoard.receiveAttack([8, 9])
 
     expect(newBoard.fleetIsSunk()).toBeTruthy()
+})
+
+test('should reset the board', () => {
+    const emptyBoard = [
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    ]
+
+    newBoard.resetBoard()
+    expect(newBoard.board).toMatchObject(emptyBoard)
+})
+
+test('should reset the fleet', () => {
+    const resetFleet = { 'carrier': undefined,
+                   'battleship': undefined,
+                   'cruiser': undefined,
+                   'submarine': undefined,
+                   'destroyer': undefined }
+
+    newBoard.resetFleet()
+    expect(newBoard.fleet).toMatchObject(resetFleet)
 })

@@ -29,6 +29,7 @@ class Player {
                     break
             }
         })
+        console.log(this.gameboard)
     }
 
     computerAttack(player, playerBoard) {
@@ -62,8 +63,8 @@ class Player {
         return Math.floor(Math.random() * max)
     }
 
-    // random ship placement might result in unallowed placement, brute-force correct placement
     #findAllowedPlacement(ship, size) {
+    // random ship placement might result in unallowed placement, brute-force correct placement
         let endCoord, x, y
         do {
             x = this.#getRandomInt(10)

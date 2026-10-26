@@ -6,37 +6,52 @@ const playBtn = document.querySelector('button')
 const boardOne = document.querySelector('.own-board')
 const boardTwo = document.querySelector('.opponent-board')
 
-// Create players
+// create players
 const playerOne = new Player()
 const playerTwo = new Player()
-
-// TODO - for now, just populate the boards
-playerOne.gameboard.placeShip('carrier', [0, 0], [4, 0])
-playerOne.gameboard.placeShip('battleship', [1, 2], [1, 5])
-playerOne.gameboard.placeShip('cruiser', [9, 0], [9, 2])
-playerOne.gameboard.placeShip('submarine', [5, 4], [7, 4])
-playerOne.gameboard.placeShip('destroyer', [1, 9], [2, 9])
 
 renderBoard(playerOne, boardOne)
 renderBoard(playerTwo, boardTwo)
 disableBoard(boardOne, true)
 disableBoard(boardTwo, true)
 
-// Start game
+// play game
+let rounds = 0
 playBtn.addEventListener('click', () => {
-    playerTwo.placeComputerFleet()
+    if (rounds > 0) {
+        // reset the board and fleet
+        playerOne.gameboard.resetBoard()
+        playerTwo.gameboard.resetBoard()
+        playerOne.gameboard.resetFleet()
+        playerTwo.gameboard.resetFleet()
+        // reset HTML
+        while (boardOne.hasChildNodes()) {
+            boardOne.removeChild(boardOne.firstChild)
+        }
+        while (boardTwo.hasChildNodes()) {
+            boardTwo.removeChild(boardTwo.firstChild)
+        }
+        renderBoard(playerOne, boardOne)
+        renderBoard(playerTwo, boardTwo)
+        disableBoard(boardOne, true)
+        disableBoard(boardTwo, true)
+    }
+
+    playerOne.placeRandomFleet()
+    playerTwo.placeRandomFleet()
     // TODO
     playBtn.style.visibility = 'hidden'
-    // Disable the player's board first
+    // let the player start
     disableBoard(boardTwo, false)
+    rounds++
 })
 
-// Add listeners to each board to play in turns
+// add listeners to each board to play in turns
 boardOne.addEventListener('click', () => {
     disableBoard(boardOne, true)
     disableBoard(boardTwo, false)
 
-    // End game
+    // end game
     if (playerOne.gameboard.fleetIsSunk()) {
         disableBoard(boardTwo, true)
         // TODO

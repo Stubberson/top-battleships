@@ -91,6 +91,17 @@ class Board {
         }
     }
 
+    resetBoard() {
+        for (let row = 0; row < this.board.length; row++) {
+            for (let col = 0; col < this.board[row].length; col++) {
+                this.board[row][col] = 0
+            }
+        }
+    }
+
+    resetFleet() {
+        Object.keys(this.fleet).forEach(ship => this.fleet[ship] = undefined)
+    }
 }
 
 export { Board }
