@@ -37,8 +37,8 @@ class Player {
         const nextAttacks = this.#getReasonableAttacks(player, hits).flat()
         if (hits.length > 0 && nextAttacks.length > 0) {
             const target = nextAttacks[this.#getRandomInt(nextAttacks.length)]
-            if (playerBoard.children[target[1]].children[target[0]].className !== 'hit' && 
-                playerBoard.children[target[1]].children[target[0]].className !== 'miss') 
+            if (!playerBoard.children[target[1]].children[target[0]].classList.contains('hit') && 
+                !playerBoard.children[target[1]].children[target[0]].classList.contains('miss')) 
             {
                 playerBoard.children[target[1]].children[target[0]].click()
             } else {
@@ -48,8 +48,9 @@ class Player {
             let x = this.#getRandomInt(10)
             let y = this.#getRandomInt(10)
 
-            if (playerBoard.children[y].children[x].className !== 'hit' && 
-                playerBoard.children[y].children[x].className !== 'miss') 
+            // children[y] is the row, so y-coordinate, and children[y].children[x] is the column
+            if (!playerBoard.children[y].children[x].classList.contains('hit') && 
+                !playerBoard.children[y].children[x].classList.contains('miss')) 
             {
                 playerBoard.children[y].children[x].click()
             } else {

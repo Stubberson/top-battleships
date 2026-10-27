@@ -13,23 +13,17 @@ function renderBoard(player, playerBoard) {
             let cellElem = document.createElement('div')
             switch (player.gameboard.board[row][col]) {
                 case 2:
-                    cellElem.classList.add('ship')
-                    break
-                case 1:
-                    cellElem.classList.add('hit')
+                    cellElem.className = 'ship'
                     break
                 case 0:
-                    cellElem.className = 'square'
-                    break
-                case -1:
-                    cellElem.classList.add('miss')
+                    cellElem.className = 'empty-square'
                     break
             }
 
             // each cell listens for an attack and refreshes board
             cellElem.addEventListener('click', () => {
                 player.gameboard.receiveAttack([col, row])
-                renderBoard(player, playerBoard)
+                updateBoard(playerBoard, col, row)
             })
             
             rowElem.appendChild(cellElem)
@@ -38,7 +32,18 @@ function renderBoard(player, playerBoard) {
     }
 }
 
-// Clarify whose turn it is
+function updateBoard(board, x, y) {
+    switch (board.children[y].children[x].className) {
+        case 'ship':
+            board.children[y].children[x].classList.add('hit')
+            break
+        case 'empty-square':
+            board.children[y].children[x].classList.add('miss')
+            break
+    }
+}
+
+// clarify whose turn it is
 function disableBoard(board, disable) {
     if (disable) {
         board.style['opacity'] = 0.3
