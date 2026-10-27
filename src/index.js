@@ -31,18 +31,20 @@ playBtn.addEventListener('click', () => {
         while (boardTwo.hasChildNodes()) {
             boardTwo.removeChild(boardTwo.firstChild)
         }
-        renderBoard(playerOne, boardOne)
-        renderBoard(playerTwo, boardTwo)
+        
         disableBoard(boardOne, true)
         disableBoard(boardTwo, true)
     }
 
     playerOne.placeRandomFleet()
     playerTwo.placeRandomFleet()
-    // TODO
+
+    renderBoard(playerOne, boardOne)
+    renderBoard(playerTwo, boardTwo)
+
     playBtn.style.visibility = 'hidden'
-    // let the player start
-    disableBoard(boardTwo, false)
+    disableBoard(boardTwo, false)  // player starts
+    
     rounds++
 })
 

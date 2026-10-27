@@ -77,28 +77,28 @@ test('should prevent attacking the same square twice', () => {
 test('should correctly report whether the fleet is sunk or not', () => {
     expect(newBoard.fleetIsSunk()).toBeFalsy()
 
-    // Place battleship and destroy it
+    // place battleship and destroy it
     newBoard.placeShip('battleship', [0,0], [3,0])
     for (let i = 0; i < 4; i++) {
         newBoard.receiveAttack([i, 0])
     }
 
-    // Destroy carrier
+    // destroy carrier
     for (let i = 2; i < 6; i++) {
         newBoard.receiveAttack([i, 1])
     }
 
-    // Destroy submarine
+    // destroy submarine
     for (let i = 0; i < 3; i++) {
         newBoard.receiveAttack([i, 3])
     }
     
-    // Destroy cruiser
+    // destroy cruiser
     for (let i = 7; i < 10; i++) {
         newBoard.receiveAttack([7, i])
     }
 
-    // Destroy destroyer
+    // destroy destroyer
     newBoard.receiveAttack([8, 9])
 
     expect(newBoard.fleetIsSunk()).toBeTruthy()

@@ -13,20 +13,20 @@ function renderBoard(player, playerBoard) {
             let cellElem = document.createElement('div')
             switch (player.gameboard.board[row][col]) {
                 case 2:
-                    cellElem.className = 'ship'
+                    cellElem.classList.add('ship')
                     break
                 case 1:
                     cellElem.classList.add('hit')
                     break
                 case 0:
-                    cellElem.className = 'empty'
+                    cellElem.className = 'square'
                     break
                 case -1:
-                    cellElem.className = 'miss'
+                    cellElem.classList.add('miss')
                     break
             }
 
-            // Each cell listens for an attack and refreshes board
+            // each cell listens for an attack and refreshes board
             cellElem.addEventListener('click', () => {
                 player.gameboard.receiveAttack([col, row])
                 renderBoard(player, playerBoard)

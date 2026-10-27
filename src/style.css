@@ -14,7 +14,8 @@ body {
     --cerulean: #1780a1;
     --pacific-cyan: #0091ad;
 
-    font-family: "Atkinson Hyperlegible Mono", sans-serif;
+    font-family: "Atkinson Hyperlegible", sans-serif;
+    font-size: larger;
 }
 
 div.intro {
@@ -39,7 +40,28 @@ button {
 div.boards-wrapper {
     justify-self: center;
     display: flex;
-    gap: 100px;
+}
+
+div.x-labels {
+    display: grid;
+    grid-template: 50px / repeat(10, 50px);
+}
+
+div.y-labels {
+    display: grid;
+    grid-template: repeat(10, 50px) / 50px;
+    align-self: flex-end;
+}
+
+div.x-labels, div.y-labels {
+    text-align: center;
+    text-justify: center;
+    font-family: "Atkinson Hyperlegible Mono", sans-serif;
+    font-size: medium;
+}
+
+div.y-labels.opponent {
+    margin-left: 50px;
 }
 
 div.board {
