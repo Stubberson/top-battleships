@@ -1,6 +1,8 @@
-// Create HTML representation of the board
+import { playTurn } from './index.js'
+
+// create HTML representation of the board
 function renderBoard(player, playerBoard) {
-    // Refresh the board first
+    // refresh board if 'play again!'
     while (playerBoard.hasChildNodes()) {
         playerBoard.removeChild(playerBoard.firstChild)
     }
@@ -20,10 +22,11 @@ function renderBoard(player, playerBoard) {
                     break
             }
 
-            // each cell listens for an attack and refreshes board
+            // each cell listens for an attack and updates board
             cellElem.addEventListener('click', () => {
                 player.gameboard.receiveAttack([col, row])
-                updateBoard(playerBoard, col, row)
+                updateBoard(playerBoard, col, row, player)
+                playTurn(player, playerBoard)
             })
             
             rowElem.appendChild(cellElem)
@@ -32,7 +35,8 @@ function renderBoard(player, playerBoard) {
     }
 }
 
-function updateBoard(board, x, y) {
+function updateBoard(board, x, y, player) {
+    // the first set of children gives the row (i.e. y-coordinate)
     switch (board.children[y].children[x].className) {
         case 'ship':
             board.children[y].children[x].classList.add('hit')
@@ -41,6 +45,15 @@ function updateBoard(board, x, y) {
             board.children[y].children[x].classList.add('miss')
             break
     }
+    
+    // add 'sunk' class name if ship is sunk
+    Object.values(player.gameboard.fleet).forEach(obj => {
+        if (obj['shipInstance'].isSunk()) {
+            obj['coords'].forEach(pair => {
+                board.children[pair[1]].children[pair[0]].classList.add('sunk')
+            })
+        }
+    })
 }
 
 // clarify whose turn it is

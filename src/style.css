@@ -2,17 +2,8 @@
 
 body {
     /* COLORS */
-    --light-gray-highlight: #e5e5e5;
-    --medium-gray-highlight: #767676;
-    --cherry-rose: #b7094c;
-    --dark-raspberry: #a01a58;
-    --royal-plum: #892b64;
-    --velvet-purple: #723c70;
-    --dusty-grape: #5c4d7d;
-    --dusk-blue: #455e89;
-    --rich-cerulean: #2e6f95;
-    --cerulean: #1780a1;
-    --pacific-cyan: #0091ad;
+    --peach: rgb(239, 139, 124);
+    --blue: rgb(116, 154, 240);
 
     font-family: "Atkinson Hyperlegible", sans-serif;
     font-size: larger;
@@ -68,8 +59,6 @@ div.board {
     display: grid;
     grid-template-rows: repeat(10, 50px);
     min-width: 500px;
-    border-top: 1px solid black;
-    border-left: 1px solid black;
 }
 
 div.board-row {
@@ -79,20 +68,44 @@ div.board-row {
 
 div.board-row > div {
     position: relative;
-    border-right: 1px solid black;
-    border-bottom: 1px solid black;
+    border: 1px solid black;
+    border-radius: 20%;
+    box-shadow: 2px 2px;
+    margin: 2px;
+
+    transition: ease 0.2s;
 }
 
 div.own-board div.ship {
-    background-color: var(--pacific-cyan);
+    background-color: var(--blue);
 }
 
 div.board div.hit {
-    background-color: var(--cherry-rose);
+    background-image: url('./visuals/hit.svg');
+    background-size: 32px;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+div.own-board div.hit {
+    background-color: var(--blue);
+}
+
+div.opponent-board div.hit {
+    background-color: var(--peach);
 }
 
 div.board div.miss {
-    background-color: var(--dusty-grape);
+    background-color: bisque;
+    background-image: url('./visuals/miss.svg');
+    background-size: 12px;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+div.board div.sunk {
+    background-color: yellow;
+    background: inset(25% 0);
 }
 
 /* Opacity change on hover */
@@ -105,4 +118,12 @@ div.opponent-board > div.board-row > div::after {
 
 div.opponent-board > div.board-row > div:hover::after {
   background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 20%;
+}
+
+div.opponent-board > div.board-row > div:hover {
+    top: 0.5px;
+    left: 0.5px;
+    box-shadow: 0.5px 0.5px;
+    cursor: pointer;
 }

@@ -48,34 +48,54 @@ playBtn.addEventListener('click', () => {
     rounds++
 })
 
-// add listeners to each board to play in turns
-boardOne.addEventListener('click', () => {
-    disableBoard(boardOne, true)
-    disableBoard(boardTwo, false)
 
-    // end game
-    if (playerOne.gameboard.fleetIsSunk()) {
-        disableBoard(boardTwo, true)
-        // TODO
-        console.log('Computer wins!')
-        playBtn.innerText = 'Play again!'
-        playBtn.style.visibility = 'visible'
-    }
-})
-
-boardTwo.addEventListener('click', () => {
-    disableBoard(boardTwo, true)
-    disableBoard(boardOne, false)
-
-    if (playerTwo.gameboard.fleetIsSunk()) {
+function playTurn(player, board) {
+    if (board.classList.contains('own-board')) {
         disableBoard(boardOne, true)
-        // TODO
-        console.log('You win!')
-        playBtn.innerText = 'Play again!'
-        playBtn.style.visibility = 'visible'
+        disableBoard(boardTwo, false)
+
+        // end game
+        if (player.gameboard.fleetIsSunk()) {
+            disableBoard(boardTwo, true)
+            // TODO
+            console.log('Computer wins!')
+            playBtn.innerText = 'Play again!'
+            playBtn.style.visibility = 'visible'
+        }
     } else {
-        setTimeout(() => {
-            playerTwo.computerAttack(playerOne, boardOne)
-        }, 1000)
+        disableBoard(boardTwo, true)
+        disableBoard(boardOne, false)
+
+        if (player.gameboard.fleetIsSunk()) {
+            disableBoard(boardOne, true)
+            // TODO
+            console.log('You win!')
+            playBtn.innerText = 'Play again!'
+            playBtn.style.visibility = 'visible'
+        } else {
+            setTimeout(() => {
+                player.computerAttack(playerOne, boardOne)
+            }, 1000)
+        }
     }
-})
+}
+
+
+
+// boardTwo.addEventListener('click', () => {
+//     disableBoard(boardTwo, true)
+//     disableBoard(boardOne, false)
+
+//     if (playerTwo.gameboard.fleetIsSunk()) {
+//         disableBoard(boardOne, true)
+//         // TODO
+//         console.log('You win!')
+//         playBtn.innerText = 'Play again!'
+//         playBtn.style.visibility = 'visible'
+//     } else {
+//         setTimeout(() => {
+//             playerTwo.computerAttack(playerOne, boardOne)
+//         }, 1000)
+//     }
+// })
+export { playTurn }
