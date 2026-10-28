@@ -36,7 +36,7 @@ function renderBoard(player, playerBoard) {
 }
 
 function updateBoard(board, x, y, player) {
-    // the first set of children gives the row (i.e. y-coordinate)
+    // the first collection of children gives the row (i.e. y-coordinate)
     switch (board.children[y].children[x].className) {
         case 'ship':
             board.children[y].children[x].classList.add('hit')
@@ -49,8 +49,43 @@ function updateBoard(board, x, y, player) {
     // add 'sunk' class name if ship is sunk
     Object.values(player.gameboard.fleet).forEach(obj => {
         if (obj['shipInstance'].isSunk()) {
-            obj['coords'].forEach(pair => {
-                board.children[pair[1]].children[pair[0]].classList.add('sunk')
+            obj['coords'].forEach((pair, i, arr) => {
+                let elem = board.children[pair[1]].children[pair[0]]
+                elem.classList.add('sunk')
+                // create ship shape when sunk
+                // TODO: WOULD NEED AN ASYNCHRONOUS FUNCTION TO WORK PROPER
+                setTimeout(() => {
+                    if (i === 0) {  // ship front
+                        if (pair[0] > arr[1][0]) {
+                            elem.style['padding'] = '20% 30% 20% 0'
+                        } else if (pair[0] < arr[1][0]) {
+                            elem.style['padding'] = '20% 0 20% 30%'
+                        } else if (pair[1] > arr[1][1]) {
+                            elem.style['padding'] = '0 20% 30% 20%'
+                        } else {
+                            elem.style['padding'] = '30% 20% 0 20%'
+                        }
+                        elem.style['background-color'] = 'black'
+                    } else if (i === arr.length - 1) {  // ship rear
+                        if (pair[0] > arr[0][0]) {
+                            elem.style['padding'] = '20% 30% 20% 0'
+                        } else if (pair[0] < arr[0][0]) {
+                            elem.style['padding'] = '20% 0 20% 30%'
+                        } else if (pair[1] > arr[0][1]) {
+                            elem.style['padding'] = '0 20% 30% 20%'
+                        } else {
+                            elem.style['padding'] = '30% 20% 0 20%'
+                        }
+                        elem.style['background-color'] = 'black'
+                    } else {
+                        if (pair[0] !== arr[0][0]) {
+                            elem.style['padding'] = '20% 0'
+                        } else {
+                            elem.style['padding'] = '0 20%'
+                        }
+                        elem.style['background-color'] = 'black'
+                    }
+                }, i * 250)
             })
         }
     })

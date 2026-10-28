@@ -104,11 +104,17 @@ div.board div.miss {
 }
 
 div.board div.sunk {
-    background-color: yellow;
-    background: inset(25% 0);
+    padding: unset;
+    
+    background-image: none;
+    background-color: unset;
+    background-clip: content-box;  /* clips to padding, controlled via JS */
+
+    box-shadow: none;
+    border: none;
 }
 
-/* Opacity change on hover */
+/* change on hover */
 div.opponent-board > div.board-row > div::after {
   content: "";
   position: absolute;
@@ -116,12 +122,12 @@ div.opponent-board > div.board-row > div::after {
   background-color: rgba(0, 0, 0, 0);
 }
 
-div.opponent-board > div.board-row > div:hover::after {
+div.opponent-board > div.board-row > div:not(.hit, .sunk, .miss):hover::after {
   background-color: rgba(0, 0, 0, 0.2);
   border-radius: 20%;
 }
 
-div.opponent-board > div.board-row > div:hover {
+div.opponent-board > div.board-row > div:not(.hit, .sunk, .miss):hover {
     top: 0.5px;
     left: 0.5px;
     box-shadow: 0.5px 0.5px;
