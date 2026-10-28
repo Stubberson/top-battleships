@@ -1,8 +1,9 @@
 import './style.css'
 import { Player } from "./player.js"
-import { renderBoard, disableBoard } from './renderer.js'
+import { getRandomInt, renderBoard, disableBoard } from './renderer.js'
 
-const playBtn = document.querySelector('button')
+const quickPlayBtn = document.querySelector('.quick')
+const slowPlayBtn = document.querySelector('.place-ships')
 const boardOne = document.querySelector('.own-board')
 const boardTwo = document.querySelector('.opponent-board')
 
@@ -15,9 +16,18 @@ renderBoard(playerTwo, boardTwo)
 disableBoard(boardOne, true)
 disableBoard(boardTwo, true)
 
-// play game
+// play game with random ship placements
+quickPlayBtn.addEventListener('click', () => {
+    startGame()
+})
+
+// player places their own fleet
+slowPlayBtn.addEventListener('click', () => {
+    startGame(true)
+})
+
 let rounds = 0
-playBtn.addEventListener('click', () => {
+function startGame(slow = false) {
     if (rounds > 0) {
         // reset the board and fleet
         playerOne.gameboard.resetBoard()
@@ -29,20 +39,20 @@ playBtn.addEventListener('click', () => {
         disableBoard(boardTwo, true)
     }
 
-    playerOne.placeRandomFleet()
+    slow ? playerOne.placeOwnFleet() : playerOne.placeRandomFleet()
     playerTwo.placeRandomFleet()
 
     renderBoard(playerOne, boardOne)
     renderBoard(playerTwo, boardTwo)
 
-    playBtn.style.visibility = 'hidden'
+    quickPlayBtn.style.visibility = 'hidden'
+    slowPlayBtn.style.visibility = 'hidden'
     disableBoard(boardTwo, false)  // player starts
     
     rounds++
-})
+}
 
-
-function playTurn(player, board) {
+function changeTurn(player, board) {
     if (board.classList.contains('own-board')) {
         disableBoard(boardOne, true)
         disableBoard(boardTwo, false)
@@ -51,8 +61,9 @@ function playTurn(player, board) {
             disableBoard(boardTwo, true)
             // TODO
             console.log('Computer wins!')
-            playBtn.innerText = 'Play again!'
-            playBtn.style.visibility = 'visible'
+            quickPlayBtn.innerText = 'Play again!'
+            quickPlayBtn.style.visibility = 'visible'
+            slowPlayBtn.style.visibility = 'visible'
         }
     } else {
         disableBoard(boardTwo, true)
@@ -62,14 +73,16 @@ function playTurn(player, board) {
             disableBoard(boardOne, true)
             // TODO
             console.log('You win!')
-            playBtn.innerText = 'Play again!'
-            playBtn.style.visibility = 'visible'
+            quickPlayBtn.innerText = 'Play again!'
+            quickPlayBtn.style.visibility = 'visible'
+            slowPlayBtn.style.visibility = 'visible'
         } else {
             setTimeout(() => {
                 player.computerAttack(playerOne, boardOne)
-            }, 1000)
+            // emulate "thinking" by randomizing the time to click
+            }, getRandomInt(1000) + 1500)  
         }
     }
 }
 
-export { playTurn }
+export { changeTurn }

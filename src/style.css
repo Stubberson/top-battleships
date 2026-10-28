@@ -18,6 +18,13 @@ h1, p {
     text-align: center;
 }
 
+div.button-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+}
+
 button {
     font-family: "Atkinson Hyperlegible Mono", sans-serif;
     font-weight: bold;
@@ -87,11 +94,7 @@ div.board div.hit {
     background-repeat: no-repeat;
 }
 
-div.own-board div.hit {
-    background-color: var(--blue);
-}
-
-div.opponent-board div.hit {
+div.board div.hit {
     background-color: var(--peach);
 }
 
@@ -132,4 +135,8 @@ div.opponent-board > div.board-row > div:not(.hit, .sunk, .miss):hover {
     left: 0.5px;
     box-shadow: 0.5px 0.5px;
     cursor: pointer;
+}
+
+div.board > div.board-row > div:not(.hit, .sunk, .miss):active {
+    box-shadow: inset gainsboro 3px 3px;
 }

@@ -1,4 +1,5 @@
 import { Board } from './gameboard.js'
+import { getRandomInt } from './renderer.js'
 
 class Player {
     constructor(name = undefined) {
@@ -32,11 +33,16 @@ class Player {
         console.log(this.gameboard)
     }
 
+    // TODO
+    placeOwnFleet() {
+
+    }
+
     computerAttack(player, playerBoard) {
         const hits = this.#getAllHits(player)
         const nextAttacks = this.#getReasonableAttacks(player, hits).flat()
         if (hits.length > 0 && nextAttacks.length > 0) {
-            const target = nextAttacks[this.#getRandomInt(nextAttacks.length)]
+            const target = nextAttacks[getRandomInt(nextAttacks.length)]
             if (!playerBoard.children[target[1]].children[target[0]].classList.contains('hit') && 
                 !playerBoard.children[target[1]].children[target[0]].classList.contains('miss')) 
             {
@@ -45,8 +51,8 @@ class Player {
                 this.computerAttack(player, playerBoard)
             }
         } else {
-            let x = this.#getRandomInt(10)
-            let y = this.#getRandomInt(10)
+            let x = getRandomInt(10)
+            let y = getRandomInt(10)
 
             // children[y] is the row, so y-coordinate, and children[y].children[x] is the column
             if (!playerBoard.children[y].children[x].classList.contains('hit') && 
@@ -60,16 +66,12 @@ class Player {
     }
 
     // *** PRIVATE METHODS ***
-    #getRandomInt(max) {
-        return Math.floor(Math.random() * max)
-    }
-
     #findAllowedPlacement(ship, size) {
     // random ship placement might result in unallowed placement, brute-force correct placement
         let endCoord, x, y
         do {
-            x = this.#getRandomInt(10)
-            y = this.#getRandomInt(10)
+            x = getRandomInt(10)
+            y = getRandomInt(10)
             if (x < 5) {  // randomize ship orientation
                 endCoord = [x + (size - 1), y]
             } else {

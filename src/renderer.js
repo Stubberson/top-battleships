@@ -1,4 +1,8 @@
-import { playTurn } from './index.js'
+import { changeTurn } from './index.js'
+
+function getRandomInt(max) {
+    return Math.floor(Math.random() * max)
+}
 
 // create HTML representation of the board
 function renderBoard(player, playerBoard) {
@@ -26,7 +30,7 @@ function renderBoard(player, playerBoard) {
             cellElem.addEventListener('click', () => {
                 player.gameboard.receiveAttack([col, row])
                 updateBoard(playerBoard, col, row, player)
-                playTurn(player, playerBoard)
+                changeTurn(player, playerBoard)
             })
             
             rowElem.appendChild(cellElem)
@@ -52,43 +56,46 @@ function updateBoard(board, x, y, player) {
             obj['coords'].forEach((pair, i, arr) => {
                 let elem = board.children[pair[1]].children[pair[0]]
                 elem.classList.add('sunk')
-                // create ship shape when sunk
-                // TODO: WOULD NEED AN ASYNCHRONOUS FUNCTION TO WORK PROPER
+                // "roll out" the ship destruction
                 setTimeout(() => {
-                    if (i === 0) {  // ship front
-                        if (pair[0] > arr[1][0]) {
-                            elem.style['padding'] = '20% 30% 20% 0'
-                        } else if (pair[0] < arr[1][0]) {
-                            elem.style['padding'] = '20% 0 20% 30%'
-                        } else if (pair[1] > arr[1][1]) {
-                            elem.style['padding'] = '0 20% 30% 20%'
-                        } else {
-                            elem.style['padding'] = '30% 20% 0 20%'
-                        }
-                        elem.style['background-color'] = 'black'
-                    } else if (i === arr.length - 1) {  // ship rear
-                        if (pair[0] > arr[0][0]) {
-                            elem.style['padding'] = '20% 30% 20% 0'
-                        } else if (pair[0] < arr[0][0]) {
-                            elem.style['padding'] = '20% 0 20% 30%'
-                        } else if (pair[1] > arr[0][1]) {
-                            elem.style['padding'] = '0 20% 30% 20%'
-                        } else {
-                            elem.style['padding'] = '30% 20% 0 20%'
-                        }
-                        elem.style['background-color'] = 'black'
-                    } else {
-                        if (pair[0] !== arr[0][0]) {
-                            elem.style['padding'] = '20% 0'
-                        } else {
-                            elem.style['padding'] = '0 20%'
-                        }
-                        elem.style['background-color'] = 'black'
-                    }
+                    setShipStyle(elem, pair, i, arr)
                 }, i * 250)
             })
         }
     })
+}
+
+function setShipStyle(elem, pair, i, arr) {
+    if (i === 0) {  // ship front
+        if (pair[0] > arr[1][0]) {
+            elem.style['padding'] = '20% 30% 20% 0'
+        } else if (pair[0] < arr[1][0]) {
+            elem.style['padding'] = '20% 0 20% 30%'
+        } else if (pair[1] > arr[1][1]) {
+            elem.style['padding'] = '0 20% 30% 20%'
+        } else {
+            elem.style['padding'] = '30% 20% 0 20%'
+        }
+        elem.style['background-color'] = 'black'
+    } else if (i === arr.length - 1) {  // ship rear
+        if (pair[0] > arr[0][0]) {
+            elem.style['padding'] = '20% 30% 20% 0'
+        } else if (pair[0] < arr[0][0]) {
+            elem.style['padding'] = '20% 0 20% 30%'
+        } else if (pair[1] > arr[0][1]) {
+            elem.style['padding'] = '0 20% 30% 20%'
+        } else {
+            elem.style['padding'] = '30% 20% 0 20%'
+        }
+        elem.style['background-color'] = 'black'
+    } else {
+        if (pair[0] !== arr[0][0]) {
+            elem.style['padding'] = '20% 0'
+        } else {
+            elem.style['padding'] = '0 20%'
+        }
+        elem.style['background-color'] = 'black'
+    }
 }
 
 // clarify whose turn it is
@@ -102,4 +109,4 @@ function disableBoard(board, disable) {
     }
 }
 
-export { renderBoard, disableBoard }
+export { getRandomInt, renderBoard, disableBoard }
