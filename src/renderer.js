@@ -1,5 +1,7 @@
 import { changeTurn } from './index.js'
 
+const informant = document.querySelector('.informant')
+
 function getRandomInt(max) {
     return Math.floor(Math.random() * max)
 }
@@ -28,9 +30,19 @@ function renderBoard(player, playerBoard) {
 
             // each cell listens for an attack and updates board
             cellElem.addEventListener('click', () => {
-                player.gameboard.receiveAttack([col, row])
-                updateBoard(playerBoard, col, row, player)
-                changeTurn(player, playerBoard)
+                try {
+                    player.gameboard.receiveAttack([col, row])
+                    updateBoard(playerBoard, col, row, player)
+                    changeTurn(player, playerBoard)
+                } catch (error) {
+                    // inform player of invalid attack
+                    cellElem.classList.add('jitter')
+                }
+            })
+
+            // remove class once the animation finishes so it can retrigger
+            cellElem.addEventListener('animationend', () => {
+                cellElem.classList.remove('jitter')
             })
             
             rowElem.appendChild(cellElem)

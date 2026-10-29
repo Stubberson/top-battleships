@@ -33,9 +33,8 @@ class Player {
         console.log(this.gameboard)
     }
 
-    // TODO
     placeOwnFleet() {
-
+        this.gameboard.placeShip(type, coords1, coords2)
     }
 
     computerAttack(player, playerBoard) {

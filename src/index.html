@@ -8,51 +8,63 @@
 </head>
 <body>
     <div class="intro">
-        <h1>Battleship</h1>
-        <p>Battle against the computer and see if you can beat it!</p>
+        <span class="title">Battleship</span>
+        <p class="informant">Battle against the computer and see if you can beat it!</p>
         <div class="button-wrapper">
             <button class="quick">Quick play</button>
-            <button class="place-ships">Commandeer your fleet</button>
+            <button class="slow">Commandeer your fleet</button>
         </div>
     </div>
     
-    <div class="boards-wrapper">
-        <div class="y-labels">
-            <p>1</p>
-            <p>2</p>
-            <p>3</p>
-            <p>4</p>
-            <p>5</p>
-            <p>6</p>
-            <p>7</p>
-            <p>8</p>
-            <p>9</p>
-            <p>10</p>
-        </div>
-        <div class="board-wrapper">
-            <div class="x-labels">
-                <p>A</p><p>B</p><p>C</p><p>D</p><p>E</p><p>F</p><p>G</p><p>H</p><p>I</p><p>J</p>
-            </div>
-            <div class="board own-board"></div>
+    <div class="play-area">
+        <div class="fleet-info">
+            <span class="info-heading">Fleet</span>
+            <ul>
+                <li>Carrier</li>
+                <li>Battleship</li>
+                <li>Cruiser</li>
+                <li>Submarine</li>
+                <li>Destroyer</li>
+            </ul>
         </div>
 
-        <div class="y-labels opponent">
-            <p>1</p>
-            <p>2</p>
-            <p>3</p>
-            <p>4</p>
-            <p>5</p>
-            <p>6</p>
-            <p>7</p>
-            <p>8</p>
-            <p>9</p>
-            <p>10</p>
-        </div>
-        <div class="board-wrapper">
-            <div class="x-labels">
-                <p>A</p><p>B</p><p>C</p><p>D</p><p>E</p><p>F</p><p>G</p><p>H</p><p>I</p><p>J</p>
+        <div class="boards-wrapper">
+            <div class="y-labels">
+                <p>1</p>
+                <p>2</p>
+                <p>3</p>
+                <p>4</p>
+                <p>5</p>
+                <p>6</p>
+                <p>7</p>
+                <p>8</p>
+                <p>9</p>
+                <p>10</p>
             </div>
-            <div class="board opponent-board"></div>
+            <div class="board-wrapper">
+                <div class="x-labels">
+                    <p>A</p><p>B</p><p>C</p><p>D</p><p>E</p><p>F</p><p>G</p><p>H</p><p>I</p><p>J</p>
+                </div>
+                <div class="board own-board"></div>
+            </div>
+            <div class="y-labels opponent">
+                <p>1</p>
+                <p>2</p>
+                <p>3</p>
+                <p>4</p>
+                <p>5</p>
+                <p>6</p>
+                <p>7</p>
+                <p>8</p>
+                <p>9</p>
+                <p>10</p>
+            </div>
+            <div class="board-wrapper">
+                <div class="x-labels">
+                    <p>A</p><p>B</p><p>C</p><p>D</p><p>E</p><p>F</p><p>G</p><p>H</p><p>I</p><p>J</p>
+                </div>
+                <div class="board opponent-board"></div>
+            </div>
         </div>
     </div>
 </body>

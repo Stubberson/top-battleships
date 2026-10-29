@@ -3,7 +3,10 @@ import { Player } from "./player.js"
 import { getRandomInt, renderBoard, disableBoard } from './renderer.js'
 
 const quickPlayBtn = document.querySelector('.quick')
-const slowPlayBtn = document.querySelector('.place-ships')
+const slowPlayBtn = document.querySelector('.slow')
+
+const playArea = document.querySelector('.play-area')
+const fleetInfo = document.querySelector('.fleet-info')
 const boardOne = document.querySelector('.own-board')
 const boardTwo = document.querySelector('.opponent-board')
 
@@ -18,16 +21,16 @@ disableBoard(boardTwo, true)
 
 // play game with random ship placements
 quickPlayBtn.addEventListener('click', () => {
-    startGame()
+    startGame(true)
 })
 
 // player places their own fleet
 slowPlayBtn.addEventListener('click', () => {
-    startGame(true)
+    startGame()
 })
 
 let rounds = 0
-function startGame(slow = false) {
+function startGame(quick = false) {
     if (rounds > 0) {
         // reset the board and fleet
         playerOne.gameboard.resetBoard()
@@ -39,14 +42,18 @@ function startGame(slow = false) {
         disableBoard(boardTwo, true)
     }
 
-    slow ? playerOne.placeOwnFleet() : playerOne.placeRandomFleet()
+    if (quick) {
+        playerOne.placeRandomFleet()
+    } else {
+        // playerOne.placeOwnFleet()
+    }
     playerTwo.placeRandomFleet()
 
     renderBoard(playerOne, boardOne)
     renderBoard(playerTwo, boardTwo)
 
-    quickPlayBtn.style.visibility = 'hidden'
-    slowPlayBtn.style.visibility = 'hidden'
+    quickPlayBtn.style['visibility'] = 'hidden'
+    slowPlayBtn.style['visibility'] = 'hidden'
     disableBoard(boardTwo, false)  // player starts
     
     rounds++
@@ -80,7 +87,7 @@ function changeTurn(player, board) {
             setTimeout(() => {
                 player.computerAttack(playerOne, boardOne)
             // emulate "thinking" by randomizing the time to click
-            }, getRandomInt(1000) + 1500)  
+            }, getRandomInt(1000) + 1000)  
         }
     }
 }
