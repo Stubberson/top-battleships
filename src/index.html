@@ -8,24 +8,105 @@
 </head>
 <body>
     <div class="intro">
-        <span class="title">Battleship</span>
-        <p class="informant">Battle against the computer and see if you can beat it!</p>
-        <div class="button-wrapper">
-            <button class="quick">Quick play</button>
-            <button class="slow">Commandeer your fleet</button>
+        <div class="header">
+            <span class="title">Battleship</span>
+            <div class="button-wrapper">
+                <button class="quick">Quick play</button>
+                <button class="slow">Commandeer play</button>
+                <button class="rules" popovertarget="rules-dialog">Rules</button>
+            </div>
         </div>
+        <dialog id="rules-dialog" popover>
+            <span>Classic Battleship Rules</span>
+            <ul class="rules-list">
+                <li id="rule-one">Ships cannot overlap</li> 
+                <li id="rule-two">Ships cannot be placed diagonally</li>
+                <li id="rule-three">That's it!</li> 
+            </ul>
+            <button popovertarget="rules-dialog" popovertargetaction="hide">Close</button>
+        </dialog>
+        <span class="informant"></span>
+        <span><strong>Quick play</strong>: Random fleet placement</span>
+        <span><strong>Commandeer play</strong>: Control your fleet placement</span>
     </div>
+
     
     <div class="play-area">
         <div class="fleet-info">
-            <span class="info-heading">Fleet</span>
-            <ul>
-                <li>Carrier</li>
-                <li>Battleship</li>
-                <li>Cruiser</li>
-                <li>Submarine</li>
-                <li>Destroyer</li>
-            </ul>
+            <span>Fleets</span>
+            <div class="own-fleet">
+                <ul>
+                    <li>Carrier</li>
+                    <div class="ship-viz carrier-wrapper">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                    <li>Battleship</li>
+                    <div class="ship-viz battleship-wrapper">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                    <li>Cruiser</li>
+                    <div class="ship-viz cruiser-wrapper">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                    <li>Submarine</li>
+                    <div class="ship-viz submarine-wrapper">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                    <li>Destroyer</li>
+                    <div class="ship-viz destroyer-wrapper">
+                        <div></div>
+                        <div></div>
+                    </div>
+                </ul>
+            </div>
+
+            <div class="opponent-fleet">
+                <ul>
+                    <li>Carrier</li>
+                    <div class="ship-viz carrier-wrapper">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                    <li>Battleship</li>
+                    <div class="ship-viz battleship-wrapper">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                    <li>Cruiser</li>
+                    <div class="ship-viz cruiser-wrapper">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                    <li>Submarine</li>
+                    <div class="ship-viz submarine-wrapper">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                    <li>Destroyer</li>
+                    <div class="ship-viz destroyer-wrapper">
+                        <div></div>
+                        <div></div>
+                    </div>
+                </ul>
+            </div>
         </div>
 
         <div class="boards-wrapper">

@@ -2,11 +2,12 @@ import './style.css'
 import { Player } from "./player.js"
 import { getRandomInt, renderBoard, disableBoard } from './renderer.js'
 
+const informant = document.querySelector('.informant')
+
 const quickPlayBtn = document.querySelector('.quick')
 const slowPlayBtn = document.querySelector('.slow')
+const rulesBtn = document.querySelector('.rules')
 
-const playArea = document.querySelector('.play-area')
-const fleetInfo = document.querySelector('.fleet-info')
 const boardOne = document.querySelector('.own-board')
 const boardTwo = document.querySelector('.opponent-board')
 
@@ -54,6 +55,7 @@ function startGame(quick = false) {
 
     quickPlayBtn.style['visibility'] = 'hidden'
     slowPlayBtn.style['visibility'] = 'hidden'
+    rulesBtn.style['visibility'] = 'hidden'
     disableBoard(boardTwo, false)  // player starts
     
     rounds++
@@ -66,11 +68,11 @@ function changeTurn(player, board) {
 
         if (player.gameboard.fleetIsSunk()) {
             disableBoard(boardTwo, true)
-            // TODO
-            console.log('Computer wins!')
+            informant.innerHTML = 'The computer got the best of you... Better luck next time!'
             quickPlayBtn.innerText = 'Play again!'
-            quickPlayBtn.style.visibility = 'visible'
-            slowPlayBtn.style.visibility = 'visible'
+            quickPlayBtn.style['visibility'] = 'visible'
+            slowPlayBtn.style['visibility'] = 'visible'
+            rulesBtn.style['visibility'] = 'visible'
         }
     } else {
         disableBoard(boardTwo, true)
@@ -78,11 +80,12 @@ function changeTurn(player, board) {
 
         if (player.gameboard.fleetIsSunk()) {
             disableBoard(boardOne, true)
-            // TODO
-            console.log('You win!')
+            
+            informant.innerHTML = 'You sunk the opponents fleet, well done!'
             quickPlayBtn.innerText = 'Play again!'
-            quickPlayBtn.style.visibility = 'visible'
-            slowPlayBtn.style.visibility = 'visible'
+            quickPlayBtn.style['visibility'] = 'visible'
+            slowPlayBtn.style['visibility'] = 'visible'
+            rulesBtn.style['visibility'] = 'visible'
         } else {
             setTimeout(() => {
                 player.computerAttack(playerOne, boardOne)

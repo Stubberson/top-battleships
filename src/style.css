@@ -7,17 +7,21 @@ body {
 
     font-family: "Atkinson Hyperlegible", sans-serif;
     font-size: larger;
+
+    box-sizing: border-box;
 }
 
 div.intro {
     display: flex;
     flex-direction: column;
 
-    border: solid black 2px;
-    border-radius: 20px;
-    box-shadow: black 3px 3px;
-
     padding: 20px;
+    margin-bottom: 20px;
+}
+
+div.header {
+    display: flex;
+    gap: 20px;
     margin-bottom: 20px;
 }
 
@@ -28,19 +32,69 @@ span.title {
 
 div.button-wrapper {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 10px;
+    gap: 20px;
 }
 
 button {
     font-family: "Atkinson Hyperlegible Mono", sans-serif;
+    font-size: 20px;
     font-weight: bold;
 
     padding: 0 20px;
-    
+    background-color: rgb(246, 201, 68);
+    border: solid black 1px;
+    border-radius: 20px;
+    box-shadow: black 2px 2px;
+
     align-self: center;
-    margin-bottom: 20px;
+
+    transition: box-shadow ease 0.2s;
+}
+
+button:hover {
+    cursor: pointer;
+    background-color: white;
+    box-shadow: black 0.5px 0.5px;
+}
+
+button:active {
+    background-color: gainsboro;
+}
+
+dialog {
+    padding: 20px;
+    border: solid black 1px;
+    border-radius: 20px;
+    box-shadow: black 3px 3px;
+}
+
+dialog > span {
+    font-weight: bold;
+}
+
+dialog > ul > #rule-one::before { 
+    content: url('./visuals/no_one.svg');
+    position: relative;
+    right: 4px;
+    top: 6px;
+}
+
+dialog > ul > #rule-two::before { 
+    content: url('./visuals/no_two.svg');
+    position: relative;
+    right: 4px;
+    top: 6px;
+}
+
+dialog > ul > #rule-three::before { 
+    content: url('./visuals/no_three.svg');
+    position: relative;
+    right: 4px;
+    top: 6px;
+}
+
+dialog button {
+    margin-top: 20px;
 }
 
 div.play-area {
@@ -52,28 +106,50 @@ div.play-area {
 }
 
 div.fleet-info {
+    font-family: "Atkinson Hyperlegible Mono", sans-serif;
+    font-size: small;
+
     width: 200px;
     padding: 20px;
     border-right: solid black 2px;
 }
 
-span.info-heading {
-    font-size: 24px;
+div.fleet-info > span {
+    font-size: medium;
     font-weight: bold;
 }
 
 ul {
     margin: 0;
     padding: 20px 0 0 0;
-}
-
-li {
     list-style: none;
 }
 
+div.ship-viz {
+    display: flex;
+    height: 30px;
+    width: 200px;
+}
+
+div.ship-viz > div {
+    width: 20px;
+    height: 20px;
+
+    border: 1px solid black;
+    border-radius: 20%;
+    box-shadow: 2px 2px;
+    margin: 2px;
+}
+
+div.own-fleet .ship-viz > div {
+    background-color: var(--blue);
+}
+
+div.opponent-fleet .ship-viz > div {
+    background-color: var(--peach);
+}
+
 div.boards-wrapper {
-    justify-self: flex-end;
-    
     display: flex;
 
     margin: 20px;
@@ -87,7 +163,9 @@ div.x-labels {
 div.y-labels {
     display: grid;
     grid-template: repeat(10, 50px) / 50px;
-    align-self: flex-end;
+    
+    position: relative;
+    top: 50px;
 }
 
 div.x-labels, div.y-labels {
@@ -158,9 +236,9 @@ div.board div.sunk {
 
 /* change on hover */
 div.opponent-board > div.board-row > div:not(.hit, .sunk, .miss):hover {
-    top: 2px;
-    left: 2px;
-    box-shadow: 0.5px 0.5px;
+    top: 0.5px;
+    left: 0.5px;
+    box-shadow: black 0.5px 0.5px;
     cursor: pointer;
 }
 
