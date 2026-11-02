@@ -99,10 +99,6 @@ dialog button {
 
 div.play-area {
     display: flex;
-
-    border: solid black 2px;
-    border-radius: 20px;
-    box-shadow: black 3px 3px;
 }
 
 div.fleet-info {
@@ -111,7 +107,11 @@ div.fleet-info {
 
     width: 200px;
     padding: 20px;
-    border-right: solid black 2px;
+    
+    
+    border: solid black 2px;
+    border-radius: 20px;
+    box-shadow: black 3px 3px;
 }
 
 div.fleet-info > span {
@@ -209,13 +209,10 @@ div.board div.hit {
     background-size: 32px;
     background-position: center;
     background-repeat: no-repeat;
-}
-
-div.board div.hit {
     background-color: var(--peach);
 }
 
-div.board div.miss {
+div.miss {
     background-color: bisque;
     background-image: url('./visuals/miss.svg');
     background-size: 12px;
@@ -223,15 +220,11 @@ div.board div.miss {
     background-repeat: no-repeat;
 }
 
-div.board div.sunk {
+div.sunk {
     padding: unset;
     
     background-image: none;
-    background-color: unset;
     background-clip: content-box;  /* clips to padding, controlled via JS */
-
-    box-shadow: none;
-    border: none;
 }
 
 /* change on hover */

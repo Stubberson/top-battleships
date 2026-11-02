@@ -3,6 +3,7 @@ import { Player } from "./player.js"
 import { getRandomInt, renderBoard, disableBoard } from './renderer.js'
 
 const informant = document.querySelector('.informant')
+informant.style['visibility'] = 'hidden'
 
 const quickPlayBtn = document.querySelector('.quick')
 const slowPlayBtn = document.querySelector('.slow')
@@ -69,6 +70,7 @@ function changeTurn(player, board) {
         if (player.gameboard.fleetIsSunk()) {
             disableBoard(boardTwo, true)
             informant.innerHTML = 'The computer got the best of you... Better luck next time!'
+            informant.style['visibility'] = 'visible'
             quickPlayBtn.innerText = 'Play again!'
             quickPlayBtn.style['visibility'] = 'visible'
             slowPlayBtn.style['visibility'] = 'visible'
@@ -90,7 +92,7 @@ function changeTurn(player, board) {
             setTimeout(() => {
                 player.computerAttack(playerOne, boardOne)
             // emulate "thinking" by randomizing the time to click
-            }, getRandomInt(1000) + 1000)  
+            }, getRandomInt(1000) + 1250)  
         }
     }
 }
