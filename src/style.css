@@ -222,7 +222,7 @@ div.miss {
 
 div.sunk {
     padding: unset;
-    
+
     background-image: none;
     background-clip: content-box;  /* clips to padding, controlled via JS */
 }

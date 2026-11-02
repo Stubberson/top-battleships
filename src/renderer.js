@@ -1,8 +1,8 @@
 import { changeTurn } from './index.js'
 
 const informant = document.querySelector('.informant')
-const playerFleetInfo = document.querySelectorAll('.own-fleet')
-const opponentFleetInfo = document.querySelectorAll('.opponent-fleet')
+const playerFleetViz = document.querySelectorAll('.own-fleet .ship-viz')
+const opponentFleetViz = document.querySelectorAll('.opponent-fleet .ship-viz')
 
 function getRandomInt(max) {
     return Math.floor(Math.random() * max)
@@ -10,11 +10,8 @@ function getRandomInt(max) {
 
 // create HTML representation of the board
 function renderBoard(player, playerBoard) {
-    // refresh board if 'play again!'
-    while (playerBoard.hasChildNodes()) {
-        playerBoard.removeChild(playerBoard.firstChild)
-    }
-
+    resetViz(playerBoard)
+    
     // flag for preventing clicks on the board while animating
     let busy = false
 
@@ -48,7 +45,6 @@ function renderBoard(player, playerBoard) {
                 // wait until the board is visually updated, then change turn
                 busy = true
                 await updateBoard(player, playerBoard, col, row)
-                // updateFleetInfo(player, playerBoard)
                 changeTurn(player, playerBoard)
                 busy = false
             })
@@ -64,7 +60,7 @@ function renderBoard(player, playerBoard) {
     }
 }
 
-// helps in visually "roll out" a ship destruction, cannot be rejected
+// helps in visually "roll out" a ship destruction
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms))
 
 // async to be able to wait for complete visual update
@@ -84,7 +80,8 @@ async function updateBoard(player, board, x, y) {
     let animations = []
     // add 'sunk' class name if ship is sunk
     Object.values(player.gameboard.fleet).forEach(obj => {
-        if (obj['shipInstance'].isSunk()) {
+        let ship = obj['shipInstance']
+        if (ship.isSunk()) {
             obj['coords'].forEach((pair, i, arr) => {
                 let elem = board.children[pair[1]].children[pair[0]]
 
@@ -98,9 +95,33 @@ async function updateBoard(player, board, x, y) {
             })
         }
     })
+    
+    updateFleetInfo(player)
 
     // wait for the whole animation to resolve
     await Promise.all(animations)
+}
+
+// update fleet side panel
+function updateFleetInfo(player) {
+    let fleetInfo
+    player.name === 'computer' ? fleetInfo = opponentFleetViz : fleetInfo = playerFleetViz
+    Object.values(player.gameboard.fleet).forEach(obj => {
+        let ship = obj['shipInstance']
+        if (ship.isSunk()) {
+            fleetInfo.forEach(viz => {
+                if (viz.classList.contains(ship.type)) {
+                    for (let i = 0; i < viz.children.length; i++) {
+                        if (viz.children[i].style['background-color'] === 'grey') return
+                        setTimeout(() => {
+                            viz.children[i].style['background-color'] = 'grey'
+                            viz.children[i].style['box-shadow'] = 'inset black 2px 2px'
+                        }, i * 250);
+                    }
+                }
+            })
+        }
+    })
 }
 
 function setShipStyle(elem, pair, i, arr) {
@@ -146,21 +167,20 @@ function disableBoard(board, disable) {
     }
 }
 
-// TODO
-// function updateFleetInfo(player, board) {
-//     // add 'hit' class name if ship is hit
-//     Object.values(player.gameboard.fleet).forEach(obj => {
-//         if (obj['shipInstance'].isSunk()) {
-//             obj['coords'].forEach((pair, i, arr) => {
-//                 let elem = board.children[pair[1]].children[pair[0]]
-//                 elem.classList.add('hit')
-//                 // "roll out" the ship destruction
-//                 setTimeout(() => {
-//                     setShipStyle(elem, pair, i, arr)
-//                 }, i * 250)
-//             })
-//         }
-//     })
-// }
+function resetViz(board) {
+    // reset play board
+    while (board.hasChildNodes()) {
+        board.removeChild(board.firstChild)
+    }
+
+    // reset fleet infos
+    const infos = [...playerFleetViz, ...opponentFleetViz]
+    infos.forEach(viz => {
+        for (let i = 0; i < viz.children.length; i++) {
+            viz.children[i].style['background-color'] = ''
+            viz.children[i].style['box-shadow'] = 'black 2px 2px'
+        }
+    })
+}
 
 export { getRandomInt, renderBoard, disableBoard }

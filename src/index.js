@@ -14,7 +14,7 @@ const boardTwo = document.querySelector('.opponent-board')
 
 // create players
 const playerOne = new Player()
-const playerTwo = new Player()
+const playerTwo = new Player('computer')
 
 renderBoard(playerOne, boardOne)
 renderBoard(playerTwo, boardTwo)
