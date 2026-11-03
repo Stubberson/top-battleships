@@ -2,12 +2,13 @@ import './style.css'
 import { Player } from "./player.js"
 import { getRandomInt, renderBoard, disableBoard } from './renderer.js'
 
-const informant = document.querySelector('.informant')
-informant.style['visibility'] = 'hidden'
-
 const quickPlayBtn = document.querySelector('.quick')
 const slowPlayBtn = document.querySelector('.slow')
 const rulesBtn = document.querySelector('.rules')
+
+const endDialog = document.querySelector('#game-end-dialog')
+const dialogText = document.querySelector('#game-end-dialog span')
+const endDialogBtn = document.querySelector('#game-end-dialog button')
 
 const boardOne = document.querySelector('.own-board')
 const boardTwo = document.querySelector('.opponent-board')
@@ -29,6 +30,10 @@ quickPlayBtn.addEventListener('click', () => {
 // player places their own fleet
 slowPlayBtn.addEventListener('click', () => {
     startGame()
+})
+
+endDialogBtn.addEventListener('click', () => {
+    endDialog.close()
 })
 
 let rounds = 0
@@ -69,8 +74,10 @@ function changeTurn(player, board) {
 
         if (player.gameboard.fleetIsSunk()) {
             disableBoard(boardTwo, true)
-            informant.innerHTML = 'The computer got the best of you... Better luck next time!'
-            informant.style['visibility'] = 'visible'
+            
+            dialogText.innerHTML = 'The computer got the best of you... Better luck next time!'
+            endDialog.showModal()
+            
             quickPlayBtn.innerText = 'Play again!'
             quickPlayBtn.style['visibility'] = 'visible'
             slowPlayBtn.style['visibility'] = 'visible'
@@ -83,7 +90,9 @@ function changeTurn(player, board) {
         if (player.gameboard.fleetIsSunk()) {
             disableBoard(boardOne, true)
             
-            informant.innerHTML = 'You sunk the opponents fleet, well done!'
+            dialogText.innerHTML = 'You sunk the opponents fleet, well done!'
+            endDialog.showModal()
+
             quickPlayBtn.innerText = 'Play again!'
             quickPlayBtn.style['visibility'] = 'visible'
             slowPlayBtn.style['visibility'] = 'visible'

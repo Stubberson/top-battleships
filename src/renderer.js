@@ -10,6 +10,7 @@ function getRandomInt(max) {
 
 // create HTML representation of the board
 function renderBoard(player, playerBoard) {
+    // reset board visuals when replay
     resetViz(playerBoard)
     
     // flag for preventing clicks on the board while animating
@@ -60,10 +61,10 @@ function renderBoard(player, playerBoard) {
     }
 }
 
-// helps in visually "roll out" a ship destruction
+// helps to visually "roll out" a ship destruction
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms))
 
-// async to be able to wait for complete visual update
+// async to be able to wait for complete visual update before turn change
 async function updateBoard(player, board, x, y) {
     // the first collection of children gives the row (i.e. y-coordinate)
     const cell = board.children[y].children[x]
@@ -93,33 +94,32 @@ async function updateBoard(player, board, x, y) {
                     sleep(i * 250).then(() => setShipStyle(elem, pair, i, arr))
                 )
             })
+            
+            updateFleetInfo(player, ship)  // simultaneously update fleet info
         }
     })
-    
-    updateFleetInfo(player)
 
     // wait for the whole animation to resolve
     await Promise.all(animations)
 }
 
 // update fleet side panel
-function updateFleetInfo(player) {
+function updateFleetInfo(player, ship) {
+    // whose ships need to be updated?
     let fleetInfo
     player.name === 'computer' ? fleetInfo = opponentFleetViz : fleetInfo = playerFleetViz
-    Object.values(player.gameboard.fleet).forEach(obj => {
-        let ship = obj['shipInstance']
-        if (ship.isSunk()) {
-            fleetInfo.forEach(viz => {
-                if (viz.classList.contains(ship.type)) {
-                    for (let i = 0; i < viz.children.length; i++) {
-                        if (viz.children[i].style['background-color'] === 'grey') return
-                        setTimeout(() => {
-                            viz.children[i].style['background-color'] = 'grey'
-                            viz.children[i].style['box-shadow'] = 'inset black 2px 2px'
-                        }, i * 250);
-                    }
-                }
-            })
+    
+    fleetInfo.forEach(wrapper => {
+        if (wrapper.classList.contains(ship.type)) {  // make sure to update the right ship
+            for (let i = 0; i < wrapper.children.length; i++) {
+                // don't re-color
+                if (wrapper.children[i].style['background-color'] === 'grey') return
+
+                sleep(i * 250).then(() => {
+                    wrapper.children[i].style['background-color'] = 'grey'
+                    wrapper.children[i].style['box-shadow'] = 'inset black 2px 2px'
+                })
+            }
         }
     })
 }

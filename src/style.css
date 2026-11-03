@@ -3,7 +3,9 @@
 body {
     /* COLORS */
     --peach: rgb(239, 139, 124);
+    --peach-light: rgba(239, 139, 124, 0.2);
     --blue: rgb(116, 154, 240);
+    --blue-light: rgb(116, 154, 240, 0.2);
 
     font-family: "Atkinson Hyperlegible", sans-serif;
     font-size: larger;
@@ -68,8 +70,17 @@ dialog {
     box-shadow: black 3px 3px;
 }
 
-dialog > span {
+dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+dialog#rules-dialog > span {
     font-weight: bold;
+}
+
+dialog#game-end-dialog > div {
+    display: flex;
+    flex-direction: column;
 }
 
 dialog > ul > #rule-one::before { 
@@ -108,7 +119,6 @@ div.fleet-info {
     width: 200px;
     padding: 20px;
     
-    
     border: solid black 2px;
     border-radius: 20px;
     box-shadow: black 3px 3px;
@@ -129,6 +139,7 @@ div.ship-viz {
     display: flex;
     height: 30px;
     width: 200px;
+    overflow: hidden;
 }
 
 div.ship-viz > div {
@@ -139,7 +150,30 @@ div.ship-viz > div {
     border-radius: 20%;
     box-shadow: 2px 2px;
     margin: 2px;
+
+    transition: translate 0.3s ease-in-out;
 }
+
+.ship-viz:hover {
+    height: 70px;
+
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    border: solid black 1px;
+    border-radius: 10px;
+
+    background-color: whitesmoke;
+
+    transition: height 0.3s ease-in-out;
+}
+
+.ship-viz.carrier { background-image: url('./visuals/gifs/carrier.gif'); }
+.ship-viz.battleship { background-image: url('./visuals/gifs/battleship.gif'); }
+.ship-viz.cruiser { background-image: url('./visuals/gifs/cruiser.gif'); }
+.ship-viz.submarine { background-image: url('./visuals/gifs/submarine.gif'); }
+.ship-viz.destroyer { background-image: url('./visuals/gifs/destroyer.gif'); }
 
 div.own-fleet .ship-viz > div {
     background-color: var(--blue);
@@ -149,23 +183,45 @@ div.opponent-fleet .ship-viz > div {
     background-color: var(--peach);
 }
 
+div.own-fleet .ship-viz:hover > div,
+div.opponent-fleet .ship-viz:hover > div {
+    translate: -150px;
+}
+
 div.boards-wrapper {
     display: flex;
-
     margin: 20px;
 }
 
-div.x-labels {
+div.board-wrapper {
     display: grid;
-    grid-template: 50px / repeat(10, 50px);
+    grid-template: 40px 500px / 40px 500px;
+}
+
+div.board-wrapper.opponent {
+    margin-left: 50px;
+}
+
+div.x-labels {
+    grid-row: 1;
+    grid-column: 2;
+
+    display: grid;
+    grid-template: 40px / repeat(10, 10%);
+
+    justify-content: center;
+    padding: 0 25px;
 }
 
 div.y-labels {
+    grid-row: 2;
+    grid-column: 1;
+
     display: grid;
-    grid-template: repeat(10, 50px) / 50px;
+    grid-template: repeat(10, 10%) / 40px;
     
-    position: relative;
-    top: 50px;
+    align-content: center;
+    padding: 25px 0;
 }
 
 div.x-labels, div.y-labels {
@@ -175,27 +231,41 @@ div.x-labels, div.y-labels {
     font-size: medium;
 }
 
-div.y-labels.opponent {
-    margin-left: 50px;
+div.board {
+    grid-row: 2;
+    grid-column: 2;
+
+    display: flex;
+    flex-direction: column;
+    
+    border: 1px solid black;
+    border-radius: 20px;
+    box-shadow: 2px 2px;
+    padding: 25px;
 }
 
-div.board {
-    display: grid;
-    grid-template-rows: repeat(10, 50px);
-    min-width: 500px;
+div.own-board {
+    background-color: var(--blue-light);
+}
+
+div.opponent-board {
+    background-color: var(--peach-light);
 }
 
 div.board-row {
     display: grid;
     grid-template-columns: repeat(10, 1fr);
+    height: 10%;
 }
 
 div.board-row > div {
     position: relative;
+    margin: 3px;
+
+    background-color: white;
     border: 1px solid black;
     border-radius: 20%;
     box-shadow: 3px 3px;
-    margin: 3px;
 
     transition: ease 0.2s;
 }
@@ -212,7 +282,7 @@ div.board div.hit {
     background-color: var(--peach);
 }
 
-div.miss {
+div.board-row > div.miss {
     background-color: bisque;
     background-image: url('./visuals/miss.svg');
     background-size: 12px;

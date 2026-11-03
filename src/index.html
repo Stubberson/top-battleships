@@ -21,13 +21,20 @@
             <ul class="rules-list">
                 <li id="rule-one">Ships cannot overlap</li> 
                 <li id="rule-two">Ships cannot be placed diagonally</li>
-                <li id="rule-three">That's it!</li> 
+                <li id="rule-three">Ships ARE allowed to be placed right next to each other</li> 
             </ul>
             <button popovertarget="rules-dialog" popovertargetaction="hide">Close</button>
         </dialog>
+
+        <dialog id="game-end-dialog" closedby="any">
+            <div>
+                <span>This will be controlled by the game state</span>
+                <button>Close</button>
+            </div>
+        </dialog>
+
         <span><strong>Quick play</strong>: Random fleet placement</span>
         <span><strong>Commandeer play</strong>: Control your fleet placement</span>
-        <span class="informant">Placeholder</span>
     </div>
 
     
@@ -110,37 +117,37 @@
         </div>
 
         <div class="boards-wrapper">
-            <div class="y-labels">
-                <p>1</p>
-                <p>2</p>
-                <p>3</p>
-                <p>4</p>
-                <p>5</p>
-                <p>6</p>
-                <p>7</p>
-                <p>8</p>
-                <p>9</p>
-                <p>10</p>
-            </div>
             <div class="board-wrapper">
+                <div class="y-labels">
+                    <p>1</p>
+                    <p>2</p>
+                    <p>3</p>
+                    <p>4</p>
+                    <p>5</p>
+                    <p>6</p>
+                    <p>7</p>
+                    <p>8</p>
+                    <p>9</p>
+                    <p>10</p>
+                </div>
                 <div class="x-labels">
                     <p>A</p><p>B</p><p>C</p><p>D</p><p>E</p><p>F</p><p>G</p><p>H</p><p>I</p><p>J</p>
                 </div>
                 <div class="board own-board"></div>
             </div>
-            <div class="y-labels opponent">
-                <p>1</p>
-                <p>2</p>
-                <p>3</p>
-                <p>4</p>
-                <p>5</p>
-                <p>6</p>
-                <p>7</p>
-                <p>8</p>
-                <p>9</p>
-                <p>10</p>
-            </div>
-            <div class="board-wrapper">
+            <div class="board-wrapper opponent">
+                <div class="y-labels opponent">
+                    <p>1</p>
+                    <p>2</p>
+                    <p>3</p>
+                    <p>4</p>
+                    <p>5</p>
+                    <p>6</p>
+                    <p>7</p>
+                    <p>8</p>
+                    <p>9</p>
+                    <p>10</p>
+                </div>
                 <div class="x-labels">
                     <p>A</p><p>B</p><p>C</p><p>D</p><p>E</p><p>F</p><p>G</p><p>H</p><p>I</p><p>J</p>
                 </div>
