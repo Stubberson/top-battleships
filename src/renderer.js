@@ -1,9 +1,11 @@
 import { changeTurn } from './index.js'
 
-const informant = document.querySelector('.informant')
-const playerFleetViz = document.querySelectorAll('.own-fleet .ship-viz')
+const playerFleet = document.querySelector('.player-fleet')
+const opponentFleet = document.querySelector('.opponent-fleet')
+const playerFleetViz = document.querySelectorAll('.player-fleet .ship-viz')
 const opponentFleetViz = document.querySelectorAll('.opponent-fleet .ship-viz')
 
+// general helper function
 function getRandomInt(max) {
     return Math.floor(Math.random() * max)
 }
@@ -125,7 +127,7 @@ function updateFleetInfo(player, ship) {
 }
 
 function setShipStyle(elem, pair, i, arr) {
-    // the 'sunken-ship' effect is achieved by manipulating the padding of background-color
+    // 'sunken-ship' effect is achieved by manipulating padding of background-color
     elem.style['background-color'] = 'black'
     if (i === 0) {  // ship front
         if (pair[0] > arr[1][0]) {
@@ -183,4 +185,26 @@ function resetViz(board) {
     })
 }
 
-export { getRandomInt, renderBoard, disableBoard }
+// visually prompts drag'n'drop for fleet
+function prepareFleetPlacement() {
+    opponentFleet.style['translate'] = '-200px'
+    playerFleetViz.forEach(div => {
+        div.classList.remove('ship-viz')
+        div.classList.add('ship-placement')
+        div.draggable = 'true'
+    })
+    opponentFleet.style['display'] = 'none'
+}
+
+function shipDragging() {
+    const dragElements = document.querySelectorAll('div[draggable="true"]')
+    dragElements.forEach(element => {
+        element.addEventListener('dragstart', event => {
+            element.classList.add('dragging')
+        })
+    })
+}
+
+
+
+export { getRandomInt, renderBoard, disableBoard, prepareFleetPlacement, shipDragging }

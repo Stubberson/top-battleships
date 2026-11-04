@@ -1,5 +1,5 @@
 import { Board } from './gameboard.js'
-import { getRandomInt } from './renderer.js'
+import { getRandomInt, prepareFleetPlacement, shipDragging } from './renderer.js'
 
 class Player {
     constructor(name = undefined) {
@@ -34,7 +34,13 @@ class Player {
     }
 
     placeOwnFleet() {
-        this.gameboard.placeShip(type, coords1, coords2)
+        return new Promise((resolve, reject) => {
+            prepareFleetPlacement()
+            shipDragging()
+
+
+            resolve()
+        })
     }
 
     computerAttack(player, playerBoard) {

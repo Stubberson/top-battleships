@@ -1,6 +1,6 @@
 import './style.css'
 import { Player } from "./player.js"
-import { getRandomInt, renderBoard, disableBoard } from './renderer.js'
+import { getRandomInt, renderBoard, disableBoard, prepareFleetPlacement } from './renderer.js'
 
 const quickPlayBtn = document.querySelector('.quick')
 const slowPlayBtn = document.querySelector('.slow')
@@ -37,7 +37,7 @@ endDialogBtn.addEventListener('click', () => {
 })
 
 let rounds = 0
-function startGame(quick = false) {
+function startGame(quickPlay = false) {
     if (rounds > 0) {
         // reset the board and fleet
         playerOne.gameboard.resetBoard()
@@ -49,20 +49,30 @@ function startGame(quick = false) {
         disableBoard(boardTwo, true)
     }
 
-    if (quick) {
+    if (quickPlay) {
         playerOne.placeRandomFleet()
+        playerTwo.placeRandomFleet()
+        
+        renderBoard(playerOne, boardOne)
+        renderBoard(playerTwo, boardTwo)
+        
+        quickPlayBtn.style['visibility'] = 'hidden'
+        slowPlayBtn.style['visibility'] = 'hidden'
+        rulesBtn.style['visibility'] = 'hidden'
+        disableBoard(boardTwo, false)  // player starts
+
+        
     } else {
-        // playerOne.placeOwnFleet()
+        // placeOwnFleet returns a Promise
+        playerOne.placeOwnFleet().then(() => {
+            playerTwo.placeRandomFleet()
+
+            quickPlayBtn.style['visibility'] = 'hidden'
+            slowPlayBtn.style['visibility'] = 'hidden'
+            rulesBtn.style['visibility'] = 'hidden'
+            disableBoard(boardTwo, false)
+        })
     }
-    playerTwo.placeRandomFleet()
-
-    renderBoard(playerOne, boardOne)
-    renderBoard(playerTwo, boardTwo)
-
-    quickPlayBtn.style['visibility'] = 'hidden'
-    slowPlayBtn.style['visibility'] = 'hidden'
-    rulesBtn.style['visibility'] = 'hidden'
-    disableBoard(boardTwo, false)  // player starts
     
     rounds++
 }

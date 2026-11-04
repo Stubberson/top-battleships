@@ -63,6 +63,9 @@ button:active {
     background-color: gainsboro;
 }
 
+/* --------------------------- */
+/* --------- DIALOGS --------- */
+/* --------------------------- */
 dialog {
     padding: 20px;
     border: solid black 1px;
@@ -112,21 +115,39 @@ div.play-area {
     display: flex;
 }
 
+/* ------------------------------ */
+/* --------- FLEET INFO --------- */
+/* ------------------------------ */
 div.fleet-info {
+    display: flex;
+    flex-direction: column;
+
     font-family: "Atkinson Hyperlegible Mono", sans-serif;
     font-size: small;
 
     width: 200px;
+    height: fit-content;
     padding: 20px;
     
     border: solid black 2px;
     border-radius: 20px;
     box-shadow: black 3px 3px;
+
+    overflow: hidden;
 }
 
 div.fleet-info > span {
     font-size: medium;
     font-weight: bold;
+}
+
+div.player-fleet {
+    display: flex;
+    flex-direction: column;
+}
+
+div.opponent-fleet {
+    transition: translate 0.3s ease-in-out;
 }
 
 ul {
@@ -135,14 +156,22 @@ ul {
     list-style: none;
 }
 
-div.ship-viz {
+li {
+    position: relative;
+}
+
+/* .ship-placment is used as flag to drag'n'drop ships  */
+div.ship-viz,
+div.ship-placement {
     display: flex;
     height: 30px;
     width: 200px;
     overflow: hidden;
+    transition: height 0.3s ease-in-out;
 }
 
-div.ship-viz > div {
+div.ship-viz > div,
+div.ship-placement > div {
     width: 20px;
     height: 20px;
 
@@ -151,7 +180,7 @@ div.ship-viz > div {
     box-shadow: 2px 2px;
     margin: 2px;
 
-    transition: translate 0.3s ease-in-out;
+    transition: translate 0.3s ease-in-out, opacity 0.3s ease-in-out;;
 }
 
 .ship-viz:hover {
@@ -165,17 +194,16 @@ div.ship-viz > div {
     border-radius: 10px;
 
     background-color: whitesmoke;
-
-    transition: height 0.3s ease-in-out;
 }
 
-.ship-viz.carrier { background-image: url('./visuals/gifs/carrier.gif'); }
-.ship-viz.battleship { background-image: url('./visuals/gifs/battleship.gif'); }
-.ship-viz.cruiser { background-image: url('./visuals/gifs/cruiser.gif'); }
-.ship-viz.submarine { background-image: url('./visuals/gifs/submarine.gif'); }
-.ship-viz.destroyer { background-image: url('./visuals/gifs/destroyer.gif'); }
+.ship-viz.carrier:hover { background-image: url('./visuals/gifs/carrier.gif'); }
+.ship-viz.battleship:hover { background-image: url('./visuals/gifs/battleship.gif'); }
+.ship-viz.cruiser:hover { background-image: url('./visuals/gifs/cruiser.gif'); }
+.ship-viz.submarine:hover { background-image: url('./visuals/gifs/submarine.gif'); }
+.ship-viz.destroyer:hover { background-image: url('./visuals/gifs/destroyer.gif'); }
 
-div.own-fleet .ship-viz > div {
+div.player-fleet .ship-viz > div,
+div.player-fleet .ship-placement > div {
     background-color: var(--blue);
 }
 
@@ -183,11 +211,59 @@ div.opponent-fleet .ship-viz > div {
     background-color: var(--peach);
 }
 
-div.own-fleet .ship-viz:hover > div,
-div.opponent-fleet .ship-viz:hover > div {
+.ship-viz:hover > div {
     translate: -150px;
 }
 
+div.ship-placement {
+    cursor: grab;
+
+    height: 70px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: solid black 1px;
+    border-radius: 10px;
+    background-color: whitesmoke;
+    justify-content: center;
+}
+
+.ship-placement.carrier { background-image: url('./visuals/gifs/carrier.gif'); }
+.ship-placement.battleship { background-image: url('./visuals/gifs/battleship.gif'); }
+.ship-placement.cruiser { background-image: url('./visuals/gifs/cruiser.gif'); }
+.ship-placement.submarine { background-image: url('./visuals/gifs/qsub.gif'); }
+.ship-placement.destroyer { background-image: url('./visuals/gifs/destroyer.gif'); }
+
+.ship-placement > div {
+    visibility: hidden;
+    opacity: 0;
+    align-self: center;
+}
+
+.ship-placement:hover > div {
+    visibility: visible;
+    opacity: 0.5;
+}
+
+.ship-placement::before {
+    content: url('./visuals/drag_indicator.svg');
+    position: absolute;
+    left: -22px;
+    top: 40px;
+}
+
+.ship-placement:active > div {
+    opacity: 1;
+}
+
+.player-fleet > .ship-placement.dragging {
+    background-color: none;
+    background-image: none;
+}
+
+/* -------------------------- */
+/* --------- BOARDS --------- */
+/* -------------------------- */
 div.boards-wrapper {
     display: flex;
     margin: 20px;
