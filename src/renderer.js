@@ -35,13 +35,12 @@ function renderBoard(player, playerBoard) {
 
             // each cell is async to be able to wait for visual board update
             cellElem.addEventListener('click', async () => {
-                if (busy) return
+                if (busy) return  // return if animation underway
                 
                 try {
                     player.gameboard.receiveAttack([col, row])
                 } catch (error) {
-                    // inform player of invalid attack
-                    cellElem.classList.add('jitter')
+                    cellElem.classList.add('jitter')  // inform player of invalid attack
                     return
                 }
 
@@ -178,11 +177,23 @@ function resetViz(board) {
     // reset fleet infos
     const infos = [...playerFleetViz, ...opponentFleetViz]
     infos.forEach(viz => {
+        // viz.children are the square divs representing a ship
         for (let i = 0; i < viz.children.length; i++) {
             viz.children[i].style['background-color'] = ''
-            viz.children[i].style['box-shadow'] = 'black 2px 2px'
+            viz.children[i].style['box-shadow'] = 'revert'
         }
     })
+
+    // reset the infos after commandeering
+    playerFleetViz.forEach(div => {
+        if (div.classList.contains('ship-placement')) {
+            div.classList.remove('ship-placement')
+            div.classList.add('ship-viz')
+            div.draggable = 'false'
+        }
+    })
+    opponentFleet.style['display'] = 'flex'
+    opponentFleet.style['translate'] = '0px'
 }
 
 // visually prompts drag'n'drop for fleet
@@ -191,20 +202,9 @@ function prepareFleetPlacement() {
     playerFleetViz.forEach(div => {
         div.classList.remove('ship-viz')
         div.classList.add('ship-placement')
-        div.draggable = 'true'
     })
     opponentFleet.style['display'] = 'none'
 }
 
-function shipDragging() {
-    const dragElements = document.querySelectorAll('div[draggable="true"]')
-    dragElements.forEach(element => {
-        element.addEventListener('dragstart', event => {
-            element.classList.add('dragging')
-        })
-    })
-}
 
-
-
-export { getRandomInt, renderBoard, disableBoard, prepareFleetPlacement, shipDragging }
+export { getRandomInt, renderBoard, disableBoard, prepareFleetPlacement }

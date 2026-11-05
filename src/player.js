@@ -1,5 +1,6 @@
 import { Board } from './gameboard.js'
-import { getRandomInt, prepareFleetPlacement, shipDragging } from './renderer.js'
+import { getRandomInt, prepareFleetPlacement } from './renderer.js'
+import { shipDrag } from './index.js'
 
 class Player {
     constructor(name = undefined) {
@@ -36,10 +37,7 @@ class Player {
     placeOwnFleet() {
         return new Promise((resolve, reject) => {
             prepareFleetPlacement()
-            shipDragging()
-
-
-            resolve()
+            shipDrag().then(() => resolve())
         })
     }
 

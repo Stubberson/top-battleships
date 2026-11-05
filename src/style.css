@@ -46,7 +46,7 @@ button {
     background-color: rgb(246, 201, 68);
     border: solid black 1px;
     border-radius: 20px;
-    box-shadow: black 2px 2px;
+    box-shadow: 2px 2px;
 
     align-self: center;
 
@@ -70,7 +70,7 @@ dialog {
     padding: 20px;
     border: solid black 1px;
     border-radius: 20px;
-    box-shadow: black 3px 3px;
+    box-shadow: 3px 3px;
 }
 
 dialog::backdrop {
@@ -125,13 +125,13 @@ div.fleet-info {
     font-family: "Atkinson Hyperlegible Mono", sans-serif;
     font-size: small;
 
-    width: 200px;
+    width: 220px;
     height: fit-content;
     padding: 20px;
     
     border: solid black 2px;
     border-radius: 20px;
-    box-shadow: black 3px 3px;
+    box-shadow: 2px 2px;
 
     overflow: hidden;
 }
@@ -141,7 +141,8 @@ div.fleet-info > span {
     font-weight: bold;
 }
 
-div.player-fleet {
+div.player-fleet,
+div.opponent-fleet {
     display: flex;
     flex-direction: column;
 }
@@ -160,12 +161,11 @@ li {
     position: relative;
 }
 
-/* .ship-placment is used as flag to drag'n'drop ships  */
 div.ship-viz,
 div.ship-placement {
     display: flex;
+    width: 220px;
     height: 30px;
-    width: 200px;
     overflow: hidden;
     transition: height 0.3s ease-in-out;
 }
@@ -177,10 +177,20 @@ div.ship-placement > div {
 
     border: 1px solid black;
     border-radius: 20%;
-    box-shadow: 2px 2px;
     margin: 2px;
 
-    transition: translate 0.3s ease-in-out, opacity 0.3s ease-in-out;;
+    transition: 
+        translate 0.3s ease-in-out,
+        opacity 0.3s ease-in-out;
+}
+
+div.player-fleet .ship-viz > div,
+div.player-fleet .ship-placement > div {
+    background-color: var(--blue);
+}
+
+div.opponent-fleet .ship-viz > div {
+    background-color: var(--peach);
 }
 
 .ship-viz:hover {
@@ -196,24 +206,25 @@ div.ship-placement > div {
     background-color: whitesmoke;
 }
 
+.ship-viz:hover > div {
+    translate: -150px;
+}
+
 .ship-viz.carrier:hover { background-image: url('./visuals/gifs/carrier.gif'); }
 .ship-viz.battleship:hover { background-image: url('./visuals/gifs/battleship.gif'); }
 .ship-viz.cruiser:hover { background-image: url('./visuals/gifs/cruiser.gif'); }
 .ship-viz.submarine:hover { background-image: url('./visuals/gifs/submarine.gif'); }
 .ship-viz.destroyer:hover { background-image: url('./visuals/gifs/destroyer.gif'); }
 
-div.player-fleet .ship-viz > div,
-div.player-fleet .ship-placement > div {
-    background-color: var(--blue);
-}
-
-div.opponent-fleet .ship-viz > div {
-    background-color: var(--peach);
-}
-
-.ship-viz:hover > div {
-    translate: -150px;
-}
+/* ----------------------------- */
+/* ------ COMMANDEER PLAY ------ */
+/* ----------------------------- */
+/* .ship-placement takes over .ship-viz when player is commandeering his fleet */
+.ship-placement.carrier { background-image: url('./visuals/gifs/carrier.gif'); }
+.ship-placement.battleship { background-image: url('./visuals/gifs/battleship.gif'); }
+.ship-placement.cruiser { background-image: url('./visuals/gifs/cruiser.gif'); }
+.ship-placement.submarine { background-image: url('./visuals/gifs/qsub.gif'); }
+.ship-placement.destroyer { background-image: url('./visuals/gifs/destroyer.gif'); }
 
 div.ship-placement {
     cursor: grab;
@@ -228,11 +239,9 @@ div.ship-placement {
     justify-content: center;
 }
 
-.ship-placement.carrier { background-image: url('./visuals/gifs/carrier.gif'); }
-.ship-placement.battleship { background-image: url('./visuals/gifs/battleship.gif'); }
-.ship-placement.cruiser { background-image: url('./visuals/gifs/cruiser.gif'); }
-.ship-placement.submarine { background-image: url('./visuals/gifs/qsub.gif'); }
-.ship-placement.destroyer { background-image: url('./visuals/gifs/destroyer.gif'); }
+.ship-placement:active {
+    cursor: grabbing;
+}
 
 .ship-placement > div {
     visibility: hidden;
@@ -256,9 +265,25 @@ div.ship-placement {
     opacity: 1;
 }
 
-.player-fleet > .ship-placement.dragging {
-    background-color: none;
+#dragging {
     background-image: none;
+    background-color: transparent;
+    border: solid transparent 1px;
+    
+    position: fixed;
+    left: -110px;
+    top: -36px;
+    pointer-events: none;
+    transition: rotate 0.15s ease;
+}
+
+#dragging > div {
+    opacity: 1;
+    visibility: visible;
+    background-color: var(--blue);
+    width: 30px;
+    height: 30px;
+    margin: 6px;
 }
 
 /* -------------------------- */
@@ -341,7 +366,7 @@ div.board-row > div {
     background-color: white;
     border: 1px solid black;
     border-radius: 20%;
-    box-shadow: 3px 3px;
+    box-shadow: 2px 2px;
 
     transition: ease 0.2s;
 }

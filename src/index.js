@@ -1,6 +1,6 @@
 import './style.css'
 import { Player } from "./player.js"
-import { getRandomInt, renderBoard, disableBoard, prepareFleetPlacement } from './renderer.js'
+import { getRandomInt, renderBoard, disableBoard } from './renderer.js'
 
 const quickPlayBtn = document.querySelector('.quick')
 const slowPlayBtn = document.querySelector('.slow')
@@ -116,4 +116,66 @@ function changeTurn(player, board) {
     }
 }
 
-export { changeTurn }
+// 'Drag and Drop' API is not modifiable enough, so dragging is manual
+function shipDrag() {
+    return new Promise(resolve => {
+        disableBoard(boardOne, false)
+        const dragElements = document.querySelectorAll('.ship-placement')
+        let ghost, rotation = 0
+
+        function move(event) {
+            const rect = event.target.getBoundingClientRect()
+            const midX = rect.width / 2
+            const midY = rect.height / 2
+
+            // grab and rotate at the center
+            ghost.style['transform-origin'] = `${event.clientX + midX}px ${event.clientY + midY}px`
+            ghost.style['transform'] = `translate(${event.clientX}px, ${event.clientY}px)`   
+        }
+
+        // add listeners to each element
+        dragElements.forEach(element => {
+            element.addEventListener('pointerdown', event => {
+                // keeps one element selected
+                element.setPointerCapture(event.pointerId)
+
+                // draggable ghost element to be able to transform without touching og
+                ghost = element.cloneNode(true)
+                ghost.id = 'dragging'  // id for styling
+                document.body.appendChild(ghost)
+                rotation = 0
+                move(event)
+            })
+
+            element.addEventListener('pointermove', event => {
+                if (ghost) move(event)
+            })
+
+            element.addEventListener('pointerup', event => {
+                if (!ghost) return
+                ghost.remove()
+                ghost = null
+
+                // hit-test manually, since there are no native drop events
+                const target = document.elementFromPoint(event.clientX, event.clientY)
+                const orientation = ((rotation % 360) + 360) % 360   // 0, 90, 180 or 270
+                console.log('dropped on', target, 'rotated', orientation)
+            })
+
+            element.addEventListener('pointercancel', () => {
+                ghost?.remove()
+                ghost = null
+            })
+        })
+
+        document.addEventListener('keydown', event => {
+            if (!ghost) return
+            if (event.key === 'R' || event.key === 'r') {
+                rotation += 90
+                ghost.style.rotate = `${rotation}deg`
+            }
+        })
+    })
+}
+
+export { changeTurn, shipDrag }
