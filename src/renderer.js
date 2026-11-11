@@ -192,6 +192,7 @@ function resetViz(board) {
     playerFleetViz.forEach(div => {
         if (div.classList.contains('ship-placement')) {
             div.classList.remove('ship-placement')
+            div.classList.remove('ship-placed')
             div.classList.add('ship-viz')
         }
     })

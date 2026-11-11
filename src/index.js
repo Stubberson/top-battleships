@@ -55,23 +55,18 @@ function startGame(quickPlay = false) {
         renderBoard(playerOne, boardOne)
         renderBoard(playerTwo, boardTwo)
         
-        quickPlayBtn.style['visibility'] = 'hidden'
-        slowPlayBtn.style['visibility'] = 'hidden'
-        rulesBtn.style['visibility'] = 'hidden'
         disableBoard(boardTwo, false)  // player starts
         disableBoard(boardOne, true)
     } else {
         // placeOwnFleet returns a Promise
         renderBoard(playerOne, boardOne)
         renderBoard(playerTwo, boardTwo)
+        // TODO never returns the promise atm
         playerOne.placeOwnFleet().then(() => {
             playerTwo.placeRandomFleet()
 
             renderBoard(playerTwo, boardTwo)
 
-            quickPlayBtn.style['visibility'] = 'hidden'
-            slowPlayBtn.style['visibility'] = 'hidden'
-            rulesBtn.style['visibility'] = 'hidden'
             disableBoard(boardTwo, false)
         })
     }
@@ -91,9 +86,6 @@ function changeTurn(player, board) {
             endDialog.showModal()
             
             quickPlayBtn.innerText = 'Play again!'
-            quickPlayBtn.style['visibility'] = 'visible'
-            slowPlayBtn.style['visibility'] = 'visible'
-            rulesBtn.style['visibility'] = 'visible'
         }
     } else {
         disableBoard(boardTwo, true)
@@ -106,9 +98,6 @@ function changeTurn(player, board) {
             endDialog.showModal()
 
             quickPlayBtn.innerText = 'Play again!'
-            quickPlayBtn.style['visibility'] = 'visible'
-            slowPlayBtn.style['visibility'] = 'visible'
-            rulesBtn.style['visibility'] = 'visible'
         } else {
             setTimeout(() => {
                 player.computerAttack(playerOne, boardOne)
@@ -203,9 +192,7 @@ function shipDrag() {
                 // place the ship on the board
                 playerOne.gameboard.placeShip(ghost.classList[0], coordinates[0], coordinates[coordinates.length - 1])
                 renderBoard(playerOne, boardOne)
-                disablePlacedShip(ghost.classList[0])
-                // TODO STILL ALLOWS TO GRAB A DISABLED SHIP
-                dragElements = document.querySelectorAll('.ship-placement')
+                disableFleetImage(ghost.classList[0])
                 
                 ghost.remove()
                 ghost = null
@@ -280,12 +267,12 @@ function indicatePlacement(dropTarget, rotation, shipSize) {
     return coordinates
 }
 
-function disablePlacedShip(type) {
+function disableFleetImage(type) {
     const playerFleetViz = document.querySelectorAll('.player-fleet .ship-placement')
-    playerFleetViz.forEach(ship => {
-        if (ship.classList.contains(type)){
-            ship.classList.add('ship-placed')
-            ship.classList.remove('ship-placement')
+    playerFleetViz.forEach(div => {
+        if (div.classList.contains(type)){
+            div.classList.add('ship-placed')
+            div.classList.remove('ship-placement')
         }
     })
 }

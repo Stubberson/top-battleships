@@ -300,6 +300,7 @@ div.ship-placement {
     border: solid black 1px;
     border-radius: 10px;
     background-color: whitesmoke;
+    pointer-events: none;
 }
 
 /* -------------------------- */
