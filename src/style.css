@@ -265,13 +265,14 @@ div.ship-placement {
     opacity: 1;
 }
 
+/* --- DRAGGING --- */
 #dragging {
     background-image: none;
     background-color: transparent;
     border: solid transparent 1px;
     
     position: fixed;
-    left: -110px;
+    left: -111px;
     top: -36px;
     pointer-events: none;
     transition: rotate 0.15s ease;
@@ -284,6 +285,21 @@ div.ship-placement {
     width: 30px;
     height: 30px;
     margin: 6px;
+}
+
+.own-board .placement-indicator {
+    background-color: rgba(0, 128, 0, 0.226);
+    box-shadow: inset 1px 1px;
+    top: 1px;
+    left: 1px;
+}
+
+/* --- AFTER PLACEMENT --- */
+.ship-placed {
+    height: 70px;
+    border: solid black 1px;
+    border-radius: 10px;
+    background-color: whitesmoke;
 }
 
 /* -------------------------- */
@@ -362,12 +378,10 @@ div.board-row {
 div.board-row > div {
     position: relative;
     margin: 3px;
-
     background-color: white;
     border: 1px solid black;
     border-radius: 20%;
     box-shadow: 2px 2px;
-
     transition: ease 0.2s;
 }
 

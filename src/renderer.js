@@ -11,11 +11,12 @@ function getRandomInt(max) {
 }
 
 // create HTML representation of the board
-function renderBoard(player, playerBoard) {
-    // reset board visuals when replay
-    resetViz(playerBoard)
-    
-    // flag for preventing clicks on the board while animating
+function renderBoard(player, board) {
+    while (board.hasChildNodes()) {
+        board.removeChild(board.firstChild)
+    }
+
+    // 'flag' to prevent clicks on the board while animating
     let busy = false
 
     for (let row = 0; row < player.gameboard.board.length; row++) {
@@ -34,20 +35,24 @@ function renderBoard(player, playerBoard) {
             }
 
             // each cell is async to be able to wait for visual board update
-            cellElem.addEventListener('click', async () => {
+            cellElem.addEventListener('click', async (event) => {
                 if (busy) return  // return if animation underway
                 
                 try {
+                    // deny clicks on own board by player
+                    if (event.isTrusted && event.target.parentElement.parentElement.classList.contains('own-board')) {
+                        throw new Error('Player cannot click their own board')
+                    }
                     player.gameboard.receiveAttack([col, row])
                 } catch (error) {
-                    cellElem.classList.add('jitter')  // inform player of invalid attack
+                    cellElem.classList.add('jitter')  // inform player of unallowed click
                     return
                 }
 
                 // wait until the board is visually updated, then change turn
                 busy = true
-                await updateBoard(player, playerBoard, col, row)
-                changeTurn(player, playerBoard)
+                await updateBoard(player, board, col, row)
+                changeTurn(player, board)
                 busy = false
             })
 
@@ -58,7 +63,7 @@ function renderBoard(player, playerBoard) {
             
             rowElem.appendChild(cellElem)
         }
-        playerBoard.appendChild(rowElem)
+        board.appendChild(rowElem)
     }
 }
 
@@ -106,7 +111,6 @@ async function updateBoard(player, board, x, y) {
 
 // update fleet side panel
 function updateFleetInfo(player, ship) {
-    // whose ships need to be updated?
     let fleetInfo
     player.name === 'computer' ? fleetInfo = opponentFleetViz : fleetInfo = playerFleetViz
     
@@ -180,7 +184,7 @@ function resetViz(board) {
         // viz.children are the square divs representing a ship
         for (let i = 0; i < viz.children.length; i++) {
             viz.children[i].style['background-color'] = ''
-            viz.children[i].style['box-shadow'] = 'revert'
+            viz.children[i].style['box-shadow'] = 'none'
         }
     })
 
@@ -189,7 +193,6 @@ function resetViz(board) {
         if (div.classList.contains('ship-placement')) {
             div.classList.remove('ship-placement')
             div.classList.add('ship-viz')
-            div.draggable = 'false'
         }
     })
     opponentFleet.style['display'] = 'flex'
@@ -207,4 +210,4 @@ function prepareFleetPlacement() {
 }
 
 
-export { getRandomInt, renderBoard, disableBoard, prepareFleetPlacement }
+export { getRandomInt, renderBoard, disableBoard, resetViz, prepareFleetPlacement }

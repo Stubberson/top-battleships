@@ -37,7 +37,7 @@ class Player {
     placeOwnFleet() {
         return new Promise((resolve, reject) => {
             prepareFleetPlacement()
-            shipDrag().then(() => resolve())
+            shipDrag(this.gameboard).then(() => resolve())
         })
     }
 
@@ -57,7 +57,7 @@ class Player {
             let x = getRandomInt(10)
             let y = getRandomInt(10)
 
-            // children[y] is the row, so y-coordinate, and children[y].children[x] is the column
+            // children[y] is the row, so y-coordinate, and children[y].children[x] is the x-coordinate
             if (!playerBoard.children[y].children[x].classList.contains('hit') && 
                 !playerBoard.children[y].children[x].classList.contains('miss')) 
             {
