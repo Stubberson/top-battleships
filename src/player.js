@@ -1,6 +1,5 @@
 import { Board } from './gameboard.js'
-import { getRandomInt, prepareFleetPlacement } from './renderer.js'
-import { shipDrag } from './index.js'
+import { getRandomInt } from './index.js'
 
 class Player {
     constructor(name = undefined) {
@@ -8,7 +7,6 @@ class Player {
         this.gameboard = new Board()
     }
 
-    // *** PUBLIC METHODS ***
     placeRandomFleet() {
         // places the fleet on random coordinates
         const fleet = Object.keys(this.gameboard.fleet)
@@ -32,13 +30,6 @@ class Player {
             }
         })
         console.log(this.gameboard)
-    }
-
-    placeOwnFleet() {
-        return new Promise((resolve, reject) => {
-            prepareFleetPlacement()
-            shipDrag(this.gameboard).then(() => resolve())
-        })
     }
 
     computerAttack(player, playerBoard) {
@@ -68,7 +59,6 @@ class Player {
         }
     }
 
-    // *** PRIVATE METHODS ***
     #findAllowedPlacement(ship, size) {
     // random ship placement might result in unallowed placement, brute-force correct placement
         let endCoord, x, y

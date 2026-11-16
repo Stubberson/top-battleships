@@ -296,11 +296,19 @@ div.ship-placement {
 
 /* --- AFTER PLACEMENT --- */
 .ship-placed {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
     height: 70px;
     border: solid black 1px;
     border-radius: 10px;
     background-color: whitesmoke;
     pointer-events: none;
+
+    text-transform: uppercase;
+    font-size: larger;
+    color: var(--peach);
 }
 
 /* -------------------------- */

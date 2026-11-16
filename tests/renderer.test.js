@@ -1,5 +1,5 @@
 import { Player } from '../src/player.js'
-import { renderBoard } from '../src/renderer.js'
+import { renderBoard, resetBoard } from '../src/index.js'
 
 // create a mock player board
 document.body.innerHTML = '<div class="board">' + '</div>'
@@ -22,4 +22,14 @@ test('should listen to and receive attacks on click', () => {
     expect(player.gameboard.board[0][0]).toBe(-1)
     expect(player.gameboard.board[9][9]).toBe(-1)
     expect(player.gameboard.board[1][0]).toBe(0)
+})
+
+test('should reset the board and fleet info', () => {
+    renderBoard(player, board)
+    board.firstChild.firstChild.click()
+    board.firstChild.lastChild.click()
+    resetBoard(board)
+
+    expect(player.gameboard.board[0][0]).toBe(0)
+    expect(player.gameboard.board[9][9]).toBe(0)
 })
