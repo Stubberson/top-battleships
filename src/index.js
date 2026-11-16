@@ -223,6 +223,12 @@ async function updateBoard(player, board, x, y) {
     await Promise.all(animations)
 }
 
+function resetBoard(board) {
+    while (board.hasChildNodes()) {
+        board.removeChild(board.firstChild)
+    }
+}
+
 // update fleet side panel
 function updateFleetInfo(player, ship) {
     let fleetInfo
@@ -241,6 +247,29 @@ function updateFleetInfo(player, ship) {
             }
         }
     })
+}
+
+function resetFleetInfo() {
+    const infos = [...playerFleetViz, ...opponentFleetViz]
+    infos.forEach(viz => {
+        // reset styles after commandeering
+        if (viz.classList.contains('ship-placed') || viz.classList.contains('ship-placement')) {
+            viz.classList.remove('ship-placed')
+            viz.classList.remove('ship-placement')
+            viz.classList.add('ship-viz')
+            const deployedText = viz.querySelector('span')
+            deployedText?.remove()
+        }
+
+        // viz.children are the square divs representing a ship
+        for (let i = 0; i < viz.children.length; i++) {
+            viz.children[i].style['background-color'] = ''
+            viz.children[i].style['box-shadow'] = 'none'
+        }
+    })
+
+    opponentFleet.style['display'] = 'flex'
+    opponentFleet.style['translate'] = '0px'
 }
 
 function setShipStyle(elem, pair, i, arr) {
@@ -284,35 +313,6 @@ function disableBoard(board, disable) {
         board.style['opacity'] = 1
         board.style['pointer-events'] = 'auto'
     }
-}
-
-function resetBoard(board) {
-    while (board.hasChildNodes()) {
-        board.removeChild(board.firstChild)
-    }
-}
-
-function resetFleetInfo() {
-    const infos = [...playerFleetViz, ...opponentFleetViz]
-    infos.forEach(viz => {
-        // reset styles after commandeering
-        if (viz.classList.contains('ship-placed') || viz.classList.contains('ship-placement')) {
-            viz.classList.remove('ship-placed')
-            viz.classList.remove('ship-placement')
-            viz.classList.add('ship-viz')
-            const deployedText = viz.querySelector('span')
-            deployedText?.remove()
-        }
-
-        // viz.children are the square divs representing a ship
-        for (let i = 0; i < viz.children.length; i++) {
-            viz.children[i].style['background-color'] = ''
-            viz.children[i].style['box-shadow'] = 'none'
-        }
-    })
-
-    opponentFleet.style['display'] = 'flex'
-    opponentFleet.style['translate'] = '0px'
 }
 
 // visually prompts drag'n'drop for fleet
